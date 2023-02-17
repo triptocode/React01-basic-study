@@ -2,12 +2,14 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
+  //const text = 'JSX & React project !!'
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          first react project !!
+          first react project
+          {/* {text} */}
         </p>
         <a
           className="App-link"
