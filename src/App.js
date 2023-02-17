@@ -25,3 +25,20 @@ function App() {
 }
 
 export default App;
+
+
+
+
+// import logo from './logo.svg';
+// import './App.css';
+// import React from 'react';
+// import Hello from './Hello'
+
+// function App() {
+  
+//   return (
+//     <Hello name='react' color='red'/>
+//   );
+// }
+
+// export default App;
