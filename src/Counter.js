@@ -10,12 +10,12 @@ function Counter() {
 
   const onIncrease = () => {
     setNumber(a => a + 1);
-  }
+  }cd 
  
   const onDecrease = () => {
     setNumber(a => a - 1);
   }
-
+ 
   return (
     <div>
       <h1>{number}</h1>

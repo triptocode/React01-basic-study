@@ -82,13 +82,26 @@
 
 
 // - 4. Counter.js
-import React from "react";
-import Counter from "./Counter";
+// import React from "react";
+// import Counter from "./Counter";
 
-function App(){
+// function App(){
+//   return (
+//     <Counter/>
+//   )
+// }
+
+// export default App;
+
+
+// 5. inputState.js
+import React from 'react';
+import InputState from './InputState';
+
+function App() {
   return (
-    <Counter/>
-  )
+    <InputState />
+  );
 }
 
 export default App;
