@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 
 function InputState() {
   const [text, setText] = useState(''); // useState('initalValue')
-  const onChange = (evt) => {
+  const onChange = (evt) => {   // evt는 SyntheticEvent ! 
     setText(evt.target.value);
-    //console.log(e); // e는 SyntheticzEvent ! 
-    //console.log(e.target); // 
+    //console.log(evt); // evt는 SyntheticEvent ! 
+    //console.log(evt.target); // 
   };
   const onReset = () => {
     setText('');
