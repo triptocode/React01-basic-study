@@ -95,12 +95,26 @@
 
 
 // 5. inputState.js
+// import React from 'react';
+// import InputState from './InputState';
+
+// function App() {
+//   return (
+//     <InputState />
+//   );
+// }
+
+// export default App;
+
+
+// 6. inputState2.js
+
 import React from 'react';
-import InputState from './InputState';
+import InputState2 from './InputState2';
 
 function App() {
   return (
-    <InputState />
+    <InputState2 />
   );
 }
 

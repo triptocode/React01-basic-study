@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
 function InputState() {
-  const [text, setText] = useState('');
-  const onChange = (e) => {
-    setText(e.target.value);
+  const [text, setText] = useState(''); // useState('initalValue')
+  const onChange = (evt) => {
+    setText(evt.target.value);
     //console.log(e); // e는 SyntheticzEvent ! 
     //console.log(e.target); // 
   };
@@ -16,7 +16,7 @@ function InputState() {
       <input onChange={onChange} value={text}  />
       <button onClick={onReset}>초기화</button> 
       <div>
-        <b>값: {text}</b>
+        <b> 입력한 내용: {text}</b>
       </div>
     </div>
   );
