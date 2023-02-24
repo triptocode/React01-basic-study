@@ -9,6 +9,10 @@ function InputState2() {
   const { fullname, nickname } = inputs; // 비구조화 할당을 통해 값 추출
 
   const onChange = (e) => {
+    console.log(e.target)
+    console.log(e.target.value)
+    console.log(e.target.name)
+
     const { value, name } = e.target; // 우선 e.target 에서 name 과 value 를 추출
     setInputs({
       ...inputs, // 기존의 input 객체를 복사한 뒤
