@@ -109,12 +109,27 @@
 
 // 6. inputState2.js
 
+// import React from 'react';
+// import InputState2 from './InputState2';
+
+// function App() {
+//   return (
+//     <InputState2 />
+//   );
+// }
+
+// export default App;
+
+
+
+// 7. UseRef1.js
+
 import React from 'react';
-import InputState2 from './InputState2';
+import UseRef1 from './UseRef1';
 
 function App() {
   return (
-    <InputState2 />
+    <UseRef1/>
   );
 }
 
