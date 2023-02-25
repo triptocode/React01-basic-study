@@ -124,12 +124,110 @@
 
 // 7. UseRef1.js
 
-import React from 'react';
-import UseRef1 from './UseRef1';
+// import React from 'react';
+// import UseRef1 from './UseRef1';
+
+// function App() {
+//   return (
+//     <UseRef1/>
+//   );
+// }
+
+// export default App;
+
+
+
+// 8. ArrayRender1.js
+// import React from 'react';
+// import ArrayRender1 from './ArrayRender1';
+
+// function App() {
+//   return (
+//     <ArrayRender1/>
+//   );
+// }
+
+// export default App;
+
+
+
+
+// 9. ArrayRender2.js
+
+// import React from 'react';
+// import ArrayRender2 from './ArrayRender2';
+
+// function App() {
+//   return (
+//     <ArrayRender2/>
+//   );
+// }
+
+// export default App;
+
+
+//10.ArrayAdd.js
+
+import React, { useRef, useState } from 'react';
+import UserList from './UserList';
+import ArrayAdd from './ArrayAdd';
 
 function App() {
+  const [inputs, setInputs] = useState({
+    username: '',
+    email: ''
+  });
+  const { username, email } = inputs;
+  const onChange = e => {
+    const { name, value } = e.target;
+    setInputs({
+      ...inputs,
+      [name]: value
+    });
+  };
+  const [users, setUsers] = useState([
+    {
+      id: 1,
+      username: 'user1',
+      email: 'user11@gmail.com'
+    },
+    {
+      id: 2,
+      username: 'user2',
+      email: 'user22@naver.com'
+    },
+    {
+      id: 3,
+      username: 'user3',
+      email: 'user33@gmail.com'
+    }
+  ]);
+
+  const nextId = useRef(4);
+  const onCreate = () => {
+    const user = {
+      id: nextId.current,
+      username,
+      email
+    };
+    setUsers(users.concat(user));
+
+    setInputs({
+      username: '',
+      email: ''
+    });
+    nextId.current += 1;
+  };
   return (
-    <UseRef1/>
+    <>
+      <ArrayAdd
+        username={username}
+        email={email}
+        onChange={onChange}
+        onCreate={onCreate}
+      />
+      <UserList users={users} />
+    </>
   );
 }
 
