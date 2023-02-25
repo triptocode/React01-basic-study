@@ -165,7 +165,7 @@
 // export default App;
 
 
-//10.ArrayAdd.js
+//10.유저추가 등록버튼 - ArrayAdd.js 와 UserList.js
 
 import React, { useRef, useState } from 'react';
 import UserList from './UserList';
