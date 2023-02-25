@@ -30,7 +30,6 @@
 
 
 // - 02-1 Hello.js
-// import logo from './logo.svg';
 // import './App.css';
 // import React from 'react';
 // import Hello from './Hello'
@@ -177,14 +176,17 @@ function App() {
     username: '',
     email: ''
   });
+
   const { username, email } = inputs;
+ 
   const onChange = e => {
-    const { name, value } = e.target;
-    setInputs({
-      ...inputs,
-      [name]: value
-    });
+      const { name, value } = e.target; // e.target,(태그)에서 name과 value가져옴
+      setInputs({
+        ...inputs,
+        [name]: value  // input name으로 username 또는 email 인데(ArrayAdd.js에 존재) 둘중 어디에 value가 입력되는지에 따라 맞춰서 setInputs 해줌 
+      });
   };
+ 
   const [users, setUsers] = useState([
     {
       id: 1,
@@ -204,18 +206,23 @@ function App() {
   ]);
 
   const nextId = useRef(4);
+  
   const onCreate = () => {
     const user = {
       id: nextId.current,
       username,
       email
     };
-    setUsers(users.concat(user));
+    
+    // 아래 두 방식중 하나로 기존 users 유저들 배열 정보에 새로운 user를 추가 가능해짐
+    //setUsers([...users, user]);  
+     setUsers(users.concat(user)); // users (id값이 1,2,3인 기존 3명의 유저들) 에 user (새로 등록된 한명의 유저)  concat으로 연결
 
     setInputs({
       username: '',
       email: ''
     });
+
     nextId.current += 1;
   };
   return (

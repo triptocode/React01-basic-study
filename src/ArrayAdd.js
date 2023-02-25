@@ -1,7 +1,8 @@
 import React from 'react';
 
 function ArrayAdd({ username, email, onChange, onCreate }) {
-  return (
+                 //{} 값을 props로 받아와서 사용
+    return (
     <div>
       <input
         name="username"
