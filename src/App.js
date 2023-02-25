@@ -227,6 +227,7 @@ function App() {
   };
   return (
     <>
+    {/* 위에서 만든것을 아래2개의 컴포넌트에 넣어줌 */}
       <ArrayAdd
         username={username}
         email={email}
