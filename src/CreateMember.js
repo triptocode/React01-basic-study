@@ -1,9 +1,7 @@
 import React from 'react';
 
-
-// 첫번째 컴포넌트 화면 : input 입력창 + 등록버튼 
-function ArrayAdd({ username, email, onChange, onCreate }) {
-                 //{} 값을 props로 받아와서 사용
+function CreateMember({ username, email, onChange, onCreate }) {
+               
     return (
     <div>
       
@@ -27,4 +25,4 @@ function ArrayAdd({ username, email, onChange, onCreate }) {
   );
 }
 
-export default ArrayAdd;
+export default CreateMember;

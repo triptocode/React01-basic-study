@@ -54,7 +54,6 @@
 
 
 // - 02-2 Wrapper.js
-// import logo from './logo.svg';
 // import './App.css';
 // import React from 'react';
 // import Hello from './Hello'
@@ -155,8 +154,6 @@
 // export default App;
 
 
-
-
 // 9. ArrayRender2.js
 
 // import React from 'react';
@@ -171,7 +168,7 @@
 // export default App;
 
 
-//10-1.useRef 변수 - UserList1.js //  users 배열처리방법 props사용안할때 
+//10-방법1.useRef 변수 - UserList1.js 하위컴포넌트에 users 배열직접작성, props사용안할때 
 
 // import React from 'react';
 // import UserList1 from './UserList1';
@@ -185,66 +182,13 @@
 // export default App;
 
 
-//10-2.useRef 변수 - UserList1.js //  users 배열처리방법 props사용할때 
+// 10-방법2. 상위컴포넌트 App.js에 users 배열작성, props로 하위UserList1.js에 users배열전달
 
-import React from 'react';
-import UserList1 from './UserList1';
-
-function App() {
-  const users = [
-    {
-      id: 1,
-      username: 'user1',
-      email: 'user11@gmail.com'
-    },
-    {
-      id: 2,
-      username: 'user2',
-      email: 'user22@naver.com'
-    },
-    {
-      id: 3,
-      username: 'user3',
-      email: 'user33@gmail.com'
-    }
-  ];  
-
-  return ( // users배열을 UserList1 에 props로 전달
-    <UserList1 users={users}/>
-  );
-}
-
-export default App;
-
-
-
-
-
-
-
-//11.유저추가 등록버튼 - ArrayAdd.js 와 UserList2.js
-
-// import React, { useRef, useState } from 'react';
-// import UserList2 from './UserList2';
-// import ArrayAdd from './ArrayAdd';
+// import React from 'react';
+// import UserList1 from './UserList1';
 
 // function App() {
-//   const [inputs, setInputs] = useState({
-//     username: '',
-//     email: ''
-//   });
-
-//   const { username, email } = inputs;
- 
-//   const onChange = e => {
-//       const { name, value } = e.target; // e.target,(태그)에서 name과 value가져옴
-//       setInputs({
-//         ...inputs,
-//         [name]: value  // input name으로 username 또는 email 인데(ArrayAdd.js에 존재) 둘중 어디에 value가 입력되는지에 따라 맞춰서 setInputs 해줌 
-//       });
-//   };
- 
-//   const [users, setUsers] = useState([
+//   const users = [
 //     {
 //       id: 1,
 //       username: 'user1',
@@ -260,7 +204,45 @@ export default App;
 //       username: 'user3',
 //       email: 'user33@gmail.com'
 //     }
-//   ]);
+//   ];  
+
+//   return ( // users배열을 UserList1 에 props로 전달
+//     <UserList1 users={users}/>
+//   );
+// }
+
+// export default App;
+
+
+
+
+//11.유저추가 등록, 삭제 버튼 - ArrayAdd.js 와 UserList2.js
+
+// import React, { useRef, useState } from 'react';
+// import UserList2 from './UserList2';
+// import ArrayAdd from './ArrayAdd';
+
+// function App() {
+//   const [inputs, setInputs] = useState({
+//                               username: '',
+//                               email: ''
+//                            });
+
+//   const { username, email } = inputs;
+ 
+//   const onChange = e => {
+//       const { name, value } = e.target; // e.target,(태그)에서 name과 value가져옴
+//       setInputs({
+//         ...inputs,
+//         [name]: value  // input name으로 username 또는 email 인데(ArrayAdd.js에 존재) 둘중 어디에 value가 입력되는지에 따라 맞춰서 setInputs 해줌 
+//       });
+//   };
+ 
+//   const [users, setUsers] = useState([
+//                           { id: 1, username: 'user1', email: 'user11@gmail.com'},
+//                           { id: 2, username: 'user2', email: 'user22@naver.com'},
+//                           { id: 3, username: 'user3', email: 'user33@gmail.com'}
+//                         ]);
 
 //   const nextId = useRef(4);
   
@@ -273,7 +255,7 @@ export default App;
     
 //     // 아래 두 방식중 하나로 기존 users 유저들 배열 정보에 새로운 user를 추가 가능해짐
 //     //setUsers([...users, user]);  
-//      setUsers(users.concat(user)); // users (id값이 1,2,3인 기존 3명의 유저들) 에 user (새로 등록된 한명의 유저)  concat으로 연결
+//     setUsers(users.concat(user)); // users (id값이 1,2,3인 기존 3명의 유저들) 에 user (새로 등록된 한명의 유저)  concat으로 연결
 
 //     setInputs({
 //       username: '',
@@ -281,23 +263,152 @@ export default App;
 //     });
 
 //     nextId.current += 1;
+  
+//   };
+
+//   const onDelete = (id) => { 
+//     setUsers(users.filter( user => user.id!==id));
 //   };
 
 //   // props 사용방법 (상위 --> 하위컴포넌트로 전달) : 
 //   //  - 프로퍼티에 문자열을 전달할 때는 큰따옴표(" ")를, 문자열 외의 값을 전달할 때는 중괄호({ })를 사용
 //   return (
 //     <>
-//     {/* 위에서 만든것을 아래2개의 컴포넌트에 props로 넣어줌 */}
+//       {/* 위에서 만든것을 아래2개의 컴포넌트에 props로 넣어줌 */}
 //       <ArrayAdd   
-//         username={username} //하위 ArrayAdd 의 input value에 props로 전달
+//         username={username} //하위 ArrayAdd 의 input value에 props로 전달 
 //         email={email} // 하위 ArrayAdd 의 input value에 props로 전달
 //         onChange={onChange} // 위에서 정의한 함수를 하위 ArrayAdd에 전달
 //         onCreate={onCreate} // 위에서 정의한 함수를 하위 ArrayAdd에 전달
 //       />
-//       {/* users 객체 통채로 props로 UserList2에 넘겨줌 */}
-//       <UserList2 users={users} /> 
+//        {/* users 객체 통채로 props로 UserList2에 넘겨줌 */}
+//       <UserList2 users={users} onRemove={onDelete}/> 
 //     </>
 //   );
 // }
 
 // export default App;
+
+
+// import React, { useRef, useState } from 'react';
+// import UserList2 from './UserList2';
+// import ArrayAdd from './ArrayAdd';
+
+// function App() {
+//   const [inputs, setInputs] = useState({
+//     username: '',
+//     email: ''
+//   });
+//   const { username, email } = inputs;
+//   const onChange = e => {
+//     const { name, value } = e.target;
+//     setInputs({
+//       ...inputs,
+//       [name]: value
+//     });
+//   };
+//   const [users, setUsers] = useState([
+//     {
+//       id: 1,
+//       username: 'velopert',
+//       email: 'public.velopert@gmail.com'
+//     },
+//     {
+//       id: 2,
+//       username: 'tester',
+//       email: 'tester@example.com'
+//     },
+//     {
+//       id: 3,
+//       username: 'liz',
+//       email: 'liz@example.com'
+//     }
+//   ]);
+
+//   const nextId = useRef(4);
+//   const onCreate = () => {
+//     const user = {
+//       id: nextId.current,
+//       username,
+//       email
+//     };
+//     setUsers([...users, user]);
+
+//     setInputs({
+//       username: '',
+//       email: ''
+//     });
+//     nextId.current += 1;
+//   };
+
+//   const onDelete = id => {
+//     // user.id 가 파라미터로 일치하지 않는 원소만 추출해서 새로운 배열을 만듬
+//     // = user.id 가 id 인 것을 제거함
+//     setUsers(users.filter(user => user.id !== id));
+//   };
+
+
+//   return (
+//     <>
+//       <ArrayAdd
+//         username={username}
+//         email={email}
+//         onChange={onChange}
+//         onCreate={onCreate}
+//       />
+//       <UserList2 users={users} rmvKey={onDelete}/>
+//     </>
+//   );
+// }
+
+// export default App;
+
+
+
+
+// MemberList / CreateMember 와 app.js
+
+// import React, { useRef, useState } from 'react';
+// import MemberList from './MemberList';
+// import CreateMember from './CreateMember';
+
+//  function App() {
+//     const [inputs, setInputs] = useState({
+//       username: '',
+//       email: ''
+//     });
+//     const { username, email } = inputs;
+    
+//     const onChange = e => {
+//       const { name, value } = e.target;
+//       setInputs({ ...inputs, [name]: value});
+//     };
+    
+//     const [users, setUsers] = useState([
+//       { id: 1, username: 'user1',email: 'user1@gmail.com'},
+//       { id: 2, username: 'user2', email: 'user2@gmail.com'},
+//       { id: 3, username: 'user3', email: 'user3@gmail.com'}
+//     ]);
+  
+//     const nextId = useRef(4);
+
+//     const onCreate = () => {
+//       const user = { id: nextId.current, username,email };
+//       setUsers([...users, user]);
+//       setInputs({ username: '', email: ''});
+//       nextId.current += 1;
+//     };
+
+//     const onDelete = id => {
+//       setUsers(users.filter(user => user.id !== id));
+//     };
+
+//     return (
+//       <>
+//        <CreateMember username={username} email={email} onChange={onChange}onCreate={onCreate}/>
+//        <MemberList usersProp={users} onRemove={onDelete}/>
+//       </>
+//     );
+//   }
+  
+//   export default App;

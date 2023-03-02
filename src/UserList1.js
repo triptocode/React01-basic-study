@@ -1,3 +1,6 @@
+
+// //10-방법1.useRef 변수 - UserList1.js 하위컴포넌트에 users 배열직접작성, props사용안할때 
+
 // import React from 'react';
 
 // function User({ user }) {
@@ -39,7 +42,7 @@
 
 
 
-// 방법2. App.js 에서 users 배열을 이동시키고, props로 받아온다.
+// 10-방법2. 상위컴포넌트 App.js에 users 배열작성, props로 하위UserList1.js에 users배열전달
 import React from 'react';
 
 function User({ user }) {
