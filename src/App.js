@@ -290,6 +290,9 @@
 // export default App;
 
 
+
+
+
 // import React, { useRef, useState } from 'react';
 // import UserList2 from './UserList2';
 // import ArrayAdd from './ArrayAdd';
@@ -366,49 +369,49 @@
 
 
 
-// MemberList / CreateMember 와 app.js
+// 하위 MemberList + CreateMember 와 상위 app.js\
+// prop , function, 이벤트, 네이밍 방법 참고링크: 
+// https://ellie-dev.tistory.com/13
 
-// import React, { useRef, useState } from 'react';
-// import MemberList from './MemberList';
-// import CreateMember from './CreateMember';
+import React, { useRef, useState } from 'react';
+import MemberList from './MemberList';
+import CreateMember from './CreateMember';
 
-//  function App() {
-//     const [inputs, setInputs] = useState({
-//       username: '',
-//       email: ''
-//     });
-//     const { username, email } = inputs;
-    
-//     const onChange = e => {
-//       const { name, value } = e.target;
-//       setInputs({ ...inputs, [name]: value});
-//     };
-    
-//     const [users, setUsers] = useState([
-//       { id: 1, username: 'user1',email: 'user1@gmail.com'},
-//       { id: 2, username: 'user2', email: 'user2@gmail.com'},
-//       { id: 3, username: 'user3', email: 'user3@gmail.com'}
-//     ]);
-  
-//     const nextId = useRef(4);
+ function App() {
+    const [inputs, setInputs] = useState({
+      username: '',
+      email: ''
+    });
+    const { username, email } = inputs;
 
-//     const onCreate = () => {
-//       const user = { id: nextId.current, username,email };
-//       setUsers([...users, user]);
-//       setInputs({ username: '', email: ''});
-//       nextId.current += 1;
-//     };
+    const handleInputChange = e => {
+      const { name, value } = e.target;
+      setInputs({ ...inputs, [name]: value});
+    };
 
-//     const onDelete = id => {
-//       setUsers(users.filter(user => user.id !== id));
-//     };
+    const [users, setUsers] = useState([
+        { id: 1, username: 'user1',email: 'user1@gmail.com'},
+        { id: 2, username: 'user2', email: 'user2@gmail.com'},
+        { id: 3, username: 'user3', email: 'user3@gmail.com'}
+    ]);
+    const nextId = useRef(4);
 
-//     return (
-//       <>
-//        <CreateMember username={username} email={email} onChange={onChange}onCreate={onCreate}/>
-//        <MemberList usersProp={users} onRemove={onDelete}/>
-//       </>
-//     );
-//   }
-  
-//   export default App;
+    const handleCreateClick = () => {
+        const user = { id: nextId.current, username, email };
+        setUsers([...users, user]);
+        setInputs({ username: '', email: ''});
+        nextId.current += 1;
+    };
+
+    const handleDeleteClick = id => {
+      setUsers(users.filter(user => user.id !== id));
+    };
+    return (
+      <> 
+      {/* <하위컴포넌트명 prop네임={배열명,함수명등 담는데이터} />*/}
+       <CreateMember propUsername={username} propEmail={email} onInputChange={handleInputChange} onCreateClick={handleCreateClick}/>
+       <MemberList usersProp={users} handleDelete={handleDeleteClick}/>
+      </>
+    );
+  } 
+  export default App;
