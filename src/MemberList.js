@@ -38,10 +38,9 @@ function MemberList({ propUsers, deleteClick, toggleClick }) {
   return (
     <div> 
              
-      {/* 1. 화살표함수 {return } 작성한 경우 */}
-      {/* {usersProp.map( u => { return ( <User propUser={u} key={u.id} onDeleteClick={deleteClick} onToggleClick = {toggleClick} />) } )
-      } */}
-      {/* 2. 화살표함수 리턴이 한줄이면 아래처럼 {return } 생략가능 */}
+      {/* 1. 화살표함수 - 소괄호()와 {return } 작성한 경우 */}
+      {/* {propUsers.map( (u) => { return ( <User propUser={u} key={u.id} onDeleteClick={deleteClick} onToggleClick = {toggleClick} />) } )} */}
+      {/* 2. 화살표함수 - 파라미터하나면 ()생략가능, 리턴이 한줄이면  {return } 생략가능 */}
       {propUsers.map( u =>  ( <User propUser={u} key={u.id} onDeleteClick={deleteClick} onToggleClick = {toggleClick} />) ) }
                {/* 3번줄- (하위 User 컴포넌트) 파라미터에 전송될 props 네임 : propUser, onDeleteClick, onToggleClick  */}
     </div>
