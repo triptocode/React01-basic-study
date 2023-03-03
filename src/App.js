@@ -416,7 +416,7 @@ import CreateMember from './CreateMember';
       <> 
       {/* <하위컴포넌트명 prop네임={배열명,함수명등 담는데이터} />*/}
        <CreateMember propUsername={username} propEmail={email} onInputChange={handleInputChange} onCreateClick={handleCreateClick}/>
-       <MemberList usersProp={users} deleteClick={handleDeleteClick} toggleClick={handleToggleClick}/>
+       <MemberList propUsers={users} deleteClick={handleDeleteClick} toggleClick={handleToggleClick}/>
       </>
     );
   } 

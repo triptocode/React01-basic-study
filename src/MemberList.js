@@ -1,29 +1,40 @@
 import React from 'react';
 
-function User({a, onDeleteClick, onToggleClick}) {
-
+function User({propUser, onDeleteClick, onToggleClick}) {
+  //2. propUser 작성 반복 피하는 방법 - 비구조 (구조분해)
+  const {username, email, id, active } = propUser
   return (
     <div>
-      <b style={{cursor: 'pointer', color: a.active?'red':'black'}} onClick={ ()=>{onToggleClick(a.id)}}> 
-           {a.username}
+      <b style={{cursor: 'pointer', color: active?'red':'black'}} onClick={ ()=>{onToggleClick(id)}}> 
+           {username}
       </b> 
-      <span>({a.email})</span>
-      <button onClick={()=>{onDeleteClick(a.id)}}>삭제</button>
+      &nbsp;
+      <span>({email})</span>
+      <button onClick={()=>{onDeleteClick(id)}}>삭제</button>
     </div>
   );
+  // 1. propUser 작성을 반복하는 방법 
+  // return (
+  //   <div>
+  //     <b style={{cursor: 'pointer', color: propUser.active?'red':'black'}} onClick={ ()=>{onToggleClick(propUser.id)}}> 
+  //          {propUser.username}
+  //     </b> 
+  //     <span>({propUser.email})</span>
+  //     <button onClick={()=>{onDeleteClick(propUser.id)}}>삭제</button>
+  //   </div>
+  // );
 }
 
-function MemberList({ usersProp, deleteClick, toggleClick }) {
+function MemberList({ propUsers, deleteClick, toggleClick }) {
   return (
     <div> 
-              {/* User user 를 User a로 변경하고 테스트!  */}
+             
       {/* 1. 화살표함수 {return } 작성한 경우 */}
-      {/* {usersProp.map( u => { return ( <User a={u} key={u.id} onDeleteClick={deleteClick} onToggleClick = {toggleClick} />) } )
+      {/* {usersProp.map( u => { return ( <User propUser={u} key={u.id} onDeleteClick={deleteClick} onToggleClick = {toggleClick} />) } )
       } */}
       {/* 2. 화살표함수 리턴이 한줄이면 아래처럼 {return } 생략가능 */}
-      {usersProp.map( u =>  ( <User a={u} key={u.id} onDeleteClick={deleteClick} onToggleClick = {toggleClick} />) )
-      }
-      
+      {propUsers.map( u =>  ( <User propUser={u} key={u.id} onDeleteClick={deleteClick} onToggleClick = {toggleClick} />) ) }
+               {/* 3번줄- (하위 User 컴포넌트) 파라미터에 전송될 props 네임 : propUser, onDeleteClick, onToggleClick  */}
     </div>
   );
 }
