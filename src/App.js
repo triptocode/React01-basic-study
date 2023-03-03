@@ -370,7 +370,7 @@
 
 
 // 하위 MemberList + CreateMember 와 상위 app.js\
-// prop , function, 이벤트, 네이밍 방법 참고링크: 
+// prop ,function, 이벤트 -  네이밍 방법 -  참고링크: 
 // https://ellie-dev.tistory.com/13
 
 import React, { useRef, useState } from 'react';
