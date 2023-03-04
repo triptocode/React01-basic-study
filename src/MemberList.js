@@ -4,13 +4,13 @@ function User({propUser, onDeleteClick, onToggleClick}) {
 
   //2. propUser 작성 반복 피하는 방법 - 비구조 (구조분해)
   const {username, email, id, active } = propUser
-  // useEffect(
-  //   () => {
-  //           console.log("화면에 나타남");
-  //           return () =>console.log("화면에 사라짐");
-  //         }
-  //   , []
-  // )
+  useEffect(
+    () => {
+            console.log("화면에 나타남");
+            return () =>console.log("화면에 사라짐");
+          }
+    , []
+  )
   return (
     <div>
       <b style={{cursor: 'pointer', color: active?'red':'black'}} onClick={ ()=>{onToggleClick(id)}}> 

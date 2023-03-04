@@ -1,3 +1,112 @@
+//Number.js -  useEffect() - 예제2 
+
+// import './App.css';
+// import React from 'react';
+// import Number from './Number'
+
+// function App() {
+  
+//   return (
+//     <>
+//       <Number/>
+//     </>
+//   );
+// }
+
+// export default App;
+
+
+
+
+// UseEffect.js - useEffect() 예제1
+
+// import './App.css';
+// import React from 'react';
+// import UseEffect from './UseEffect'
+
+// function App() {
+  
+//   return (
+//     <>
+//       <UseEffect/>
+//     </>
+//   );
+// }
+
+// export default App;
+
+
+
+
+// 하위 MemberList + CreateMember 와 상위 app.js\
+// prop ,function, 이벤트 -  네이밍 방법 -  참고링크: 
+// https://ellie-dev.tistory.com/13
+
+import React, { useRef, useState, useMemo } from 'react';
+import MemberList from './MemberList';
+import CreateMember from './CreateMember';
+
+ function App() {
+
+  function countActiveUsers(users) {
+    console.log('활성 사용자 수를 세는중...');
+    return users.filter(user => user.active).length;
+  }
+
+
+    const [inputs, setInputs] = useState({
+      username: '',
+      email: ''
+    });
+    const { username, email } = inputs;
+    const handleInputChange = e => {
+      const { name, value } = e.target;
+      setInputs({ ...inputs, [name]: value});
+    };
+    const [users, setUsers] = useState([
+        { id: 1, username: 'user1',email: 'user1@gmail.com', active: true },
+        { id: 2, username: 'user2', email: 'user2@gmail.com', active: false },
+        { id: 3, username: 'user3', email: 'user3@gmail.com' , active: false }
+    ]);
+    const nextId = useRef(4);
+    const handleCreateClick = () => {
+        const user = { id: nextId.current, username, email };
+        setUsers([...users, user]);
+        setInputs({ username: '', email: ''});
+        nextId.current += 1;
+    };
+
+    const handleDeleteClick = id => {
+      setUsers(users.filter(user => user.id !== id));
+    };
+    const handleToggleClick = id => {
+        setUsers(
+            users.map( user => user.id===id?{...user, active: !user.active}:user))
+    }
+
+ 
+  const count = useMemo(() => countActiveUsers(users), [users]);
+
+    return (
+      <> 
+      {/* <하위컴포넌트명 prop네임={배열명,함수명등 담는데이터} />*/}
+       <CreateMember propUsername={username} propEmail={email} onInputChange={handleInputChange} onCreateClick={handleCreateClick}/>
+       <MemberList propUsers={users} deleteClick={handleDeleteClick} toggleClick={handleToggleClick}/>
+       <div>활성사용자 수 : {count}</div>
+      </>
+    );
+  } 
+
+  export default App;
+
+
+
+
+
+
+
+
+
 // - 01
 // import logo from './logo.svg';
 // import './App.css';
@@ -369,88 +478,8 @@
 
 
 
-// 하위 MemberList + CreateMember 와 상위 app.js\
-// prop ,function, 이벤트 -  네이밍 방법 -  참고링크: 
-// https://ellie-dev.tistory.com/13
-
-// import React, { useRef, useState } from 'react';
-// import MemberList from './MemberList';
-// import CreateMember from './CreateMember';
-
-//  function App() {
-//     const [inputs, setInputs] = useState({
-//       username: '',
-//       email: ''
-//     });
-//     const { username, email } = inputs;
-//     const handleInputChange = e => {
-//       const { name, value } = e.target;
-//       setInputs({ ...inputs, [name]: value});
-//     };
-//     const [users, setUsers] = useState([
-//         { id: 1, username: 'user1',email: 'user1@gmail.com', active: true },
-//         { id: 2, username: 'user2', email: 'user2@gmail.com', active: false },
-//         { id: 3, username: 'user3', email: 'user3@gmail.com' , active: false }
-//     ]);
-//     const nextId = useRef(4);
-//     const handleCreateClick = () => {
-//         const user = { id: nextId.current, username, email };
-//         setUsers([...users, user]);
-//         setInputs({ username: '', email: ''});
-//         nextId.current += 1;
-//     };
-
-//     const handleDeleteClick = id => {
-//       setUsers(users.filter(user => user.id !== id));
-//     };
-//     const handleToggleClick = id => {
-//         setUsers(
-//             users.map( user => user.id===id?{...user, active: !user.active}:user))
-//     }
-//     return (
-//       <> 
-//       {/* <하위컴포넌트명 prop네임={배열명,함수명등 담는데이터} />*/}
-//        <CreateMember propUsername={username} propEmail={email} onInputChange={handleInputChange} onCreateClick={handleCreateClick}/>
-//        <MemberList propUsers={users} deleteClick={handleDeleteClick} toggleClick={handleToggleClick}/>
-//       </>
-//     );
-//   } 
-//   export default App;
 
 
 
 
-// UseEffect.js - useEffect() 예제1
 
-// import './App.css';
-// import React from 'react';
-// import UseEffect from './UseEffect'
-
-// function App() {
-  
-//   return (
-//     <>
-//       <UseEffect/>
-//     </>
-//   );
-// }
-
-// export default App;
-
-
-
-//Number.js -  useEffect() - 예제2 
-import './App.css';
-import React from 'react';
-import Number from './Number'
-
-function App() {
-  
-  return (
-    <>
-      <Number/>
-    </>
-  );
-}
-
-export default App;
