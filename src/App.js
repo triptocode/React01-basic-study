@@ -42,7 +42,7 @@
 // prop ,function, 이벤트 -  네이밍 방법 -  참고링크: 
 // https://ellie-dev.tistory.com/13
 
-import React, { useRef, useState, useMemo } from 'react';
+import React, { useRef, useState, useMemo, useCallback } from 'react';
 import MemberList from './MemberList';
 import CreateMember from './CreateMember';
 
@@ -59,30 +59,52 @@ import CreateMember from './CreateMember';
       email: ''
     });
     const { username, email } = inputs;
-    const handleInputChange = e => {
-      const { name, value } = e.target;
-      setInputs({ ...inputs, [name]: value});
-    };
+
+    const handleInputChange = useCallback(
+        e => {
+          const { name, value } = e.target;
+          setInputs({ ...inputs, [name]: value});
+        },
+      [inputs]
+     );
+
+  
     const [users, setUsers] = useState([
         { id: 1, username: 'user1',email: 'user1@gmail.com', active: true },
         { id: 2, username: 'user2', email: 'user2@gmail.com', active: false },
         { id: 3, username: 'user3', email: 'user3@gmail.com' , active: false }
     ]);
     const nextId = useRef(4);
-    const handleCreateClick = () => {
-        const user = { id: nextId.current, username, email };
-        setUsers([...users, user]);
-        setInputs({ username: '', email: ''});
-        nextId.current += 1;
-    };
 
-    const handleDeleteClick = id => {
-      setUsers(users.filter(user => user.id !== id));
-    };
-    const handleToggleClick = id => {
-        setUsers(
+
+      // deps 에 users 가 들어있기 때문에 배열이 바뀔때마다 함수가 새로 만들어지는건, 당연합니다.
+      // 그렇다면 이걸 최적화하고 싶다면 ?
+      // 아래 화살표함수들의 deps 에서 users 를 지워서, 함수들에서 현재 useState 로 관리하는 users 를 참조하지 않게 하는것입니다
+
+    const handleCreateClick =  useCallback(
+      () => {
+          const user = { id: nextId.current, username, email };
+         
+          setUsers(users.concat(user)); //     setUsers(users => users.concat(user));  // seUsers에 등록한 users 파라미터에서 최신users를 조회하기때문에 deps에 users 생략가능 
+          //setUsers([...users, user]);  
+         
+          setInputs({ username: '', email: ''});
+          nextId.current += 1;
+      }, [users, username, email]  //[username, email] 
+      );
+
+      const handleDeleteClick = useCallback(id => {
+        setUsers(users.filter(user => user.id !== id)); // setUsers(users => users.filter(user => user.id !== id));
+      },  [users] //  },  []
+    );
+
+    const handleToggleClick = useCallback(
+      id => {
+        setUsers( //  setUsers(users =>
             users.map( user => user.id===id?{...user, active: !user.active}:user))
-    }
+       },
+      [users]  // []
+   );
 
  
   const count = useMemo(() => countActiveUsers(users), [users]);

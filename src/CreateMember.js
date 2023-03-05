@@ -1,6 +1,7 @@
 import React from 'react';
 
 function CreateMember({ username, email, onInputChange, onCreateClick }) {
+  console.log('CreateMember Component !! ')
                
     return (
     <div>
@@ -26,3 +27,4 @@ function CreateMember({ username, email, onInputChange, onCreateClick }) {
 }
 
 export default CreateMember;
+// export default React.memo(CreateMember);
