@@ -12,7 +12,7 @@ function CreateMember({ username, email, onInputChange, onCreateClick }) {
           onChange={onInputChange}
           value={username}
         />
-      
+      &nbsp;
         <input
           name="email"
           placeholder="이메일"

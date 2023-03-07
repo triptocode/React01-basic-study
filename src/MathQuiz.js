@@ -16,13 +16,13 @@ function MathQuiz(){
     const multiplySubmitForm = (e) => {
       e.preventDefault();
       if (parseInt(value) === first * second) {
-        setResult('정답');
+        setResult('정답! 다음문제 gogo!');
         setFirst(Math.ceil(Math.random() * 9));
         setSecond(Math.ceil(Math.random() * 9));
         setValue('');
         input2.current.focus();
       } else {
-        setResult('땡');
+        setResult('땡! 다시 정답을 맞춰보세요! ');
         setValue('');
         input1.current.focus();
       }
@@ -31,13 +31,13 @@ function MathQuiz(){
     const addSubmitForm = (e) => {
       e.preventDefault();
       if (parseInt(value2) === first2 + second2) {
-        setResult2('정답');
+        setResult2('정답! 통과하셨습니다.');
         setFirst2(Math.ceil(Math.random() * 9));
         setSecond2(Math.ceil(Math.random() * 9));
         setValue2('');
        
       } else {
-        setResult2('땡');
+        setResult2('땡! 다시 정답을 맞춰보세요!');
         setValue2('');
        
       }
@@ -57,7 +57,7 @@ function MathQuiz(){
                 />
           &nbsp;<button>입력!</button>
         </form>
-        <div id="result">{result}</div>
+        <h6 id="result" style={{color:"red"}}>{result}</h6>
 
         <br></br>
         <h4 style={{color:"beige"}}>Quiz 2</h4>
@@ -71,7 +71,7 @@ function MathQuiz(){
                 />
           &nbsp;<button>입력!</button>
         </form>
-        <div id="result">{result2}</div>
+        <h6 id="result" style={{color:"red"}}>{result2}</h6>
       </div>
     );
   };
