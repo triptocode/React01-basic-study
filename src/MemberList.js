@@ -1,5 +1,6 @@
 import React , {useEffect} from 'react';
 
+// const User = React.memo(function User({ user, onRemove, onToggle }) {
 function User({propUser, onDeleteClick, onToggleClick}) {
 
   //2. propUser 작성 반복 피하는 방법 - 비구조 (구조분해)
@@ -45,5 +46,6 @@ function MemberList({ propUsers, deleteClick, toggleClick }) {
   );
 }
 export default MemberList;
+// export default React.memo(MemberList);
 
 
