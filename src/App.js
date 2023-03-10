@@ -1,101 +1,143 @@
-import React, { useRef, useReducer, useMemo, useCallback } from 'react';
-import MemberList from './MemberList';
-import CreateMember from './CreateMember';
 
-function countActiveUsers(users) {
-  console.log('활성 사용자 수를 세는중...');
-  return users.filter(user => user.active).length;
-}
+// import React, { useRef, useReducer, useMemo, useCallback } from 'react';
+// import MemberList from './MemberList';
+// import CreateMember from './CreateMember';
+// import produce from 'immer';
 
-// useReducer 를 위한 수정코드 - 1. useState(초기값정의) 를 쓴 배열2개 inputs 와 users의 초기값을 initialState 변수에 넣어둠 
-const initialState = {
-        inputs:{ username: '', email: ''},
-        users: [ { id: 1, username: 'user1',email: 'user1@gmail.com', active: true },
-                 { id: 2, username: 'user2', email: 'user2@gmail.com', active: false },
-                 { id: 3, username: 'user3', email: 'user3@gmail.com' , active: false }
-               ]
-};
+// // immer - 1. 아래의 코드는 immer 의 produce를 브라우저 개발자도구 콘솔에서 사용하기 위해 등록
+// window.produce = produce;
+// // immer - 2.
+// // 개발자도구를 열어 콘솔탭에서
+// // 아래 4개를 각각 입력하면서 immer 의 produce에 대해 알아본다.
+// // produce
+// // const state = { changedNum:1 , fixedNum:2};
+// // const nextState = produce(state, draft => { draft.changedNum +=3})
+// // nextState
 
-function reducer(state, action) {
-  switch (action.type) {
-      case 'CHANGE_INPUT':
-        return { ...state,
-                  inputs: { ...state.inputs, 
-                            [action.name]: action.value
-                          }
-        };
-      case 'CREATE_USER':
-        return { inputs: initialState.inputs,
-                 users: state.users.concat(action.user)
-        };
-      case 'TOGGLE_USER':
-        return { ...state,
-                 users: state.users.map(user =>
-                      user.id === action.id ? { ...user, active: !user.active } : user
-                      )
-        };
-    case 'REMOVE_USER':
-      return {  ...state,
-                users: state.users.filter(user => user.id !== action.id)
-      };
-    default:
-      return state;
-  }
-}
+
+
+
+// function countActiveUsers(users) {
+//   console.log('활성 사용자 수를 세는중...');
+//   return users.filter(user => user.active).length;
+// }
+
+
+// // 2. useReducer() 의 두번째 파라미터 initialState : 기존코드 useState(초기값정의) 함수를 사용한 배열2개 : inputs 배열과 users배열의 초기값을 initialState 변수에 넣어둠 
+// const initialState = {
+//   inputs:{ username: '', email: ''},
+//   users: [ { id: 1, username: 'user1',email: 'user1@gmail.com', active: true },
+//            { id: 2, username: 'user2', email: 'user2@gmail.com', active: false },
+//            { id: 3, username: 'user3', email: 'user3@gmail.com' , active: false }
+//          ]
+// };
+
+// // 3. useReducer() 의 첫번째 파라미터 reducer:  
+// function reducer(state, action) {
+//   switch (action.type) {
+//       case 'CHANGE_INPUT':
+//         return { ...state,
+//                   inputs: { ...state.inputs, 
+//                             [action.name]: action.value
+//                           }
+//         };
+//       case 'CREATE_USER':
+//         return { inputs: initialState.inputs,
+//                  users: state.users.concat(action.user)   
+//         };
+//       case 'TOGGLE_USER':
+//         return { ...state,
+//                  users: state.users.map(user =>
+//                       user.id === action.id ? { ...user, active: !user.active } : user
+//                       )
+//         };
+//     case 'REMOVE_USER':
+//       return {  ...state,
+//                 users: state.users.filter(user => user.id !== action.id)
+//       };
+//     default:
+//       return state;
+//   }
+// }
+
+// function App() {
+//   // 1-1. useReducer(reducer, initialState) 함수 : 파라미터 2개(reducer함수, 및 initialState 초기값)는 위에서 상세정의 
+//   // 1-2.  const [state, dispatch] 에서 state의 초기값은 initialState로 세팅함.
+//   // 1-3. dispatch함수는 action 및 action의 type 속성 데이터값을 담고있고, reducer함수를 작동시킴
+//   // 1-4  reducer함수는 action을 파라미터로 받아 참조하며, state값을 업데이트 시킨다. 
+//   const [state, dispatch] = useReducer(reducer, initialState); 
+//   const nextId = useRef(4);
+
+//   const { users } = state;
+//   const { username, email } = state.inputs;
+
+//   const handleInputChange  = useCallback(e => {
+//     const { name, value } = e.target;
+//     dispatch({
+//       type: 'CHANGE_INPUT', 
+//       name, 
+//       value
+//     });
+//   }, []);
+
+//   const handleCreateClick  = useCallback(() => {
+//     dispatch({
+//       type: 'CREATE_USER',
+//       user: {
+//         id: nextId.current,
+//         username,
+//         email
+//       }
+//     });
+//     nextId.current += 1;
+//   }, [username, email]);
+
+//   const handleToggleClick  = useCallback(id => {
+//     dispatch({
+//       type: 'TOGGLE_USER',
+//       id
+//     });
+//   }, []);
+
+//   const handleDeleteClick  = useCallback(id => {
+//     dispatch({
+//       type: 'REMOVE_USER',
+//       id
+//     });
+//   }, []);
+
+//   const count = useMemo(() => countActiveUsers(users), [users]);
+
+//   return (
+//     <>
+//       <CreateMember
+//         username={username}
+//         email={email}
+//         onInputChange={handleInputChange }
+//         onCreateClick={handleCreateClick }
+//       />
+//       <MemberList propUsers={users} toggleClick={handleToggleClick } deleteClick={handleDeleteClick } />
+//       <div>활성사용자 수 : {count}</div>
+//     </>
+//   );
+// }
+
+// export default App;
+
+
+
+
+import React from "react";
+import MathQuiz from "./MathQuiz"
+import './App.css';
+
+
 
 function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const nextId = useRef(4);
-
-  const { users } = state;
-  const { username, email } = state.inputs;
-
-  const handleInputChange  = useCallback(e => {
-    const { name, value } = e.target;
-    dispatch({
-      type: 'CHANGE_INPUT', 
-      name, 
-      value
-    });
-  }, []);
-
-  const handleCreateClick  = useCallback(() => {
-    dispatch({
-      type: 'CREATE_USER',
-      user: {
-        id: nextId.current,
-        username,
-        email
-      }
-    });
-    nextId.current += 1;
-  }, [username, email]);
-
-  const handleToggleClick  = useCallback(id => {
-    dispatch({
-      type: 'TOGGLE_USER',
-      id
-    });
-  }, []);
-
-  const handleDeleteClick  = useCallback(id => {
-    dispatch({
-      type: 'REMOVE_USER',
-      id
-    });
-  }, []);
-
-  const count = useMemo(() => countActiveUsers(users), [users]);
+  
   return (
     <>
-      <CreateMember
-        username={username}
-        email={email}
-        onInputChange={handleInputChange }
-        onCreateClick={handleCreateClick }
-      />
-      <MemberList propUsers={users} toggleClick={handleToggleClick } deleteClick={handleDeleteClick } />
-      <div>활성사용자 수 : {count}</div>
+      <MathQuiz/>
     </>
   );
 }
@@ -108,9 +150,34 @@ export default App;
 
 
 
+// import React from 'react';
+// import Main from "./Main";
+// import './style.css';
+
+// function App() {
+//   return (
+//     <div className="app">
+//       <Main />
+
+//       {/* <footer>
+//         <h5>The React Logo was acquired from the create-react-app template</h5>
+//         <h5>
+//           The Angular Logo was acquired from <a href="https://angular.io/presskit">here</a> and has the <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> License
+//         </h5>
+//       </footer> */}
+//     </div>
+//   );
+// }
+
+// export default App;
+
+
+
+
 
 // import React from "react";
-// import MathQuiz from "./MathQuiz"
+// import Ox from "./Ox"
+// import Ox2 from "./Ox2"
 // import './App.css';
 
 
@@ -119,12 +186,19 @@ export default App;
   
 //   return (
 //     <>
-//       <MathQuiz/>
+//       <Ox/>
+//       <Ox2/>
 //     </>
 //   );
 // }
 
 // export default App;
+
+
+
+
+
+
 
 
 
