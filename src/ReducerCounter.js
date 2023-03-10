@@ -1,8 +1,9 @@
 import React, { useReducer } from "react";
 
+// 3. initialState : state의 초기값
 const initialState = { count: 0 };
 
-// 2. reducer() : 상태업데이트 함수, dispatch 의 action type 데이터를 파라미터로 받음 
+// 2. reducer() : state의 상태 업데이트 함수, dispatch 의 action type 데이터를 파라미터로 받음 
 function reducer(state, action) {
     // console.log(action)
     // console.log(state)
