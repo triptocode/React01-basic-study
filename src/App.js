@@ -7,16 +7,13 @@ function countActiveUsers(users) {
   return users.filter(user => user.active).length;
 }
 
+// useReducer 를 위한 수정코드 - 1. useState(초기값정의) 를 쓴 배열2개 inputs 와 users의 초기값을 initialState 변수에 넣어둠 
 const initialState = {
-        inputs: {
-          username: '',
-          email: ''
-        },
-        users: [
-            { id: 1, username: 'user1',email: 'user1@gmail.com', active: true },
-            { id: 2, username: 'user2', email: 'user2@gmail.com', active: false },
-            { id: 3, username: 'user3', email: 'user3@gmail.com' , active: false }
-        ]
+        inputs:{ username: '', email: ''},
+        users: [ { id: 1, username: 'user1',email: 'user1@gmail.com', active: true },
+                 { id: 2, username: 'user2', email: 'user2@gmail.com', active: false },
+                 { id: 3, username: 'user3', email: 'user3@gmail.com' , active: false }
+               ]
 };
 
 function reducer(state, action) {
