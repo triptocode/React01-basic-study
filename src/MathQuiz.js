@@ -28,20 +28,20 @@ function MathQuiz(){
       }
     };
 
-    // const addSubmitForm = (e) => {
-    //   e.preventDefault();
-    //   if (parseInt(value2) === first2 + second2) {
-    //     setResult2('정답! 통과하셨습니다.');
-    //     setFirst2(Math.ceil(Math.random() * 9));
-    //     setSecond2(Math.ceil(Math.random() * 9));
-    //     setValue2('');
+    const addSubmitForm = (e) => {
+      e.preventDefault();
+      if (parseInt(value2) === first2 + second2) {
+        setResult2('정답! 통과하셨습니다.');
+        setFirst2(Math.ceil(Math.random() * 9));
+        setSecond2(Math.ceil(Math.random() * 9));
+        setValue2('');
        
-    //   } else {
-    //     setResult2('땡! 다시 정답을 맞춰보세요!');
-    //     setValue2('');
+      } else {
+        setResult2('땡! 다시 정답을 맞춰보세요!');
+        setValue2('');
        
-    //   }
-    // };
+      }
+    };
 
 
     return (
@@ -59,7 +59,7 @@ function MathQuiz(){
         </form>
         <h6 id="result" style={{color:"red"}}>{result}</h6>
 
-        {/* <br></br>
+        <br></br>
         <h4 style={{color:"lightgreen"}}>Quiz 2</h4>
           <div> {first2} + {second2} = ?</div>
         <form onSubmit={addSubmitForm}>
@@ -71,7 +71,7 @@ function MathQuiz(){
                 />
           &nbsp;<button>입력!</button>
         </form>
-        <h6 id="result" style={{color:"red"}}>{result2}</h6> */}
+        <h6 id="result" style={{color:"red"}}>{result2}</h6>
       </div>
     );
   };
