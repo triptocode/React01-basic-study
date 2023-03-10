@@ -2,7 +2,10 @@ import React, { useReducer } from "react";
 
 const initialState = { count: 0 };
 
+// 2. reducer() : 상태업데이트 함수, dispatch 의 action type 데이터를 파라미터로 받음 
 function reducer(state, action) {
+    // console.log(action)
+    // console.log(state)
   switch (action.type) {
     case "INCREMENT":
       return state.count < action.max
@@ -25,6 +28,7 @@ function reducer(state, action) {
 }
 
 function ReducerCounter({ step = 1, min = 0, max = 10 }) {
+    // 1.useReducer()
   const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
