@@ -1,3 +1,21 @@
+// // [ 클래스형 컴포넌트 ] - index.js, ClassCountner.js 
+import React from "react";
+import ClassCounter from "./ClassCounter"
+import './App.css';
+
+function App() {
+  
+  return (
+    <>
+      <ClassCounter/>
+    </>
+  );
+}
+
+export default App;
+
+
+
 
 
 // // [[[ immers 연습 ]]] 
@@ -128,102 +146,102 @@
 
 
 
-// [[[ 커스텀 Hooks 만들기 : 반복되는 로직을 쉽게 재사용하는 방법 ]]]
-import React, { useRef, useReducer, useMemo, useCallback } from 'react';
-import MemberList from './MemberList';
-import CreateMember from './CreateMember';
-import useInputs from './hooks/useInputs';
+// // [[[ 커스텀 Hooks 만들기 : 반복되는 로직을 쉽게 재사용하는 방법 ]]]
+// import React, { useRef, useReducer, useMemo, useCallback } from 'react';
+// import MemberList from './MemberList';
+// import CreateMember from './CreateMember';
+// import useInputs from './hooks/useInputs';
 
-function countActiveUsers(users) {
-  console.log('활성 사용자 수를 세는중...');
-  return users.filter(user => user.active).length;
-}
+// function countActiveUsers(users) {
+//   console.log('활성 사용자 수를 세는중...');
+//   return users.filter(user => user.active).length;
+// }
 
-const initialState = {
-  // 1.  useReducer 쪽에서 사용하는 inputs 를 없애고 이에 관련된 작업을 useInputs 를 대체
-  //   inputs:{ username: '', email: ''},  
-    users: [ { id: 1, username: 'user1',email: 'user1@gmail.com', active: true },
-             { id: 2, username: 'user2', email: 'user2@gmail.com', active: false },
-             { id: 3, username: 'user3', email: 'user3@gmail.com' , active: false }
-           ]
-};
+// const initialState = {
+//   // 1.  useReducer 쪽에서 사용하는 inputs 를 없애고 이에 관련된 작업을 useInputs 를 대체
+//   //   inputs:{ username: '', email: ''},  
+//     users: [ { id: 1, username: 'user1',email: 'user1@gmail.com', active: true },
+//              { id: 2, username: 'user2', email: 'user2@gmail.com', active: false },
+//              { id: 3, username: 'user3', email: 'user3@gmail.com' , active: false }
+//            ]
+// };
 
-function reducer(state, action) {
-  switch (action.type) {
-    case 'CREATE_USER':
-      return {
-        users: state.users.concat(action.user)
-      };
-    case 'TOGGLE_USER':
-      return {
-        users: state.users.map(user =>
-          user.id === action.id ? { ...user, active: !user.active } : user
-        )
-      };
-    case 'REMOVE_USER':
-      return {
-        users: state.users.filter(user => user.id !== action.id)
-      };
-    default:
-      return state;
-  }
-}
+// function reducer(state, action) {
+//   switch (action.type) {
+//     case 'CREATE_USER':
+//       return {
+//         users: state.users.concat(action.user)
+//       };
+//     case 'TOGGLE_USER':
+//       return {
+//         users: state.users.map(user =>
+//           user.id === action.id ? { ...user, active: !user.active } : user
+//         )
+//       };
+//     case 'REMOVE_USER':
+//       return {
+//         users: state.users.filter(user => user.id !== action.id)
+//       };
+//     default:
+//       return state;
+//   }
+// }
 
-function App() {
-  const [{ username, email }, handleInputChange, reset] = useInputs({
-    username: '',
-    email: ''
-  });
+// function App() {
+//   const [{ username, email }, handleInputChange, reset] = useInputs({
+//     username: '',
+//     email: ''
+//   });
 
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const nextId = useRef(4);
+//   const [state, dispatch] = useReducer(reducer, initialState);
+//   const nextId = useRef(4);
 
-  const { users } = state;
+//   const { users } = state;
 
-  const handleCreateClick = useCallback(() => {
-    dispatch({
-      type: 'CREATE_USER',
-      user: {
-        id: nextId.current,
-        username,
-        email
-      }
-    });
+//   const handleCreateClick = useCallback(() => {
+//     dispatch({
+//       type: 'CREATE_USER',
+//       user: {
+//         id: nextId.current,
+//         username,
+//         email
+//       }
+//     });
 
-    reset();  // 새로운 항목을 추가 할 때 input 값을 초기화해야 하므로 데이터 등록 후 reset() 을 호출
-    nextId.current += 1;
-  }, [username, email, reset]);
+//     reset();  // 새로운 항목을 추가 할 때 input 값을 초기화해야 하므로 데이터 등록 후 reset() 을 호출
+//     nextId.current += 1;
+//   }, [username, email, reset]);
 
-  const handleToggleClick = useCallback(id => {
-    dispatch({
-      type: 'TOGGLE_USER',
-      id
-    });
-  }, []);
+//   const handleToggleClick = useCallback(id => {
+//     dispatch({
+//       type: 'TOGGLE_USER',
+//       id
+//     });
+//   }, []);
 
-  const handleDeleteClick = useCallback(id => {
-    dispatch({
-      type: 'REMOVE_USER',
-      id
-    });
-  }, []);
+//   const handleDeleteClick = useCallback(id => {
+//     dispatch({
+//       type: 'REMOVE_USER',
+//       id
+//     });
+//   }, []);
 
-  const count = useMemo(() => countActiveUsers(users), [users]);
-  return (
-    <>
-       <CreateMember
-         username={username}
-         email={email}
-         onInputChange={handleInputChange }         
-         onCreateClick={handleCreateClick }
-       />
-       <MemberList propUsers={users} toggleClick={handleToggleClick } deleteClick={handleDeleteClick } />
-      <div>활성사용자 수 : {count}</div>
-    </>
-  );
-}
+//   const count = useMemo(() => countActiveUsers(users), [users]);
+//   return (
+//     <>
+//        <CreateMember
+//          username={username}
+//          email={email}
+//          onInputChange={handleInputChange }         
+//          onCreateClick={handleCreateClick }
+//        />
+//        <MemberList propUsers={users} toggleClick={handleToggleClick } deleteClick={handleDeleteClick } />
+//       <div>활성사용자 수 : {count}</div>
+//     </>
+//   );
+// }
 
-export default App;
+// export default App;
 
 
 
