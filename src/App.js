@@ -1,37 +1,3 @@
-// // [ useState 예제 - tic tac toe 게임 ] 
-import React from "react";
-import Board from "./Board"
-import './board.css';
-
-function App() {
-  
-  return (
-    <Board/>
-  );
-}
-
-export default App;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // // // [ 클래스형 컴포넌트 ] - index.js, ClassCountner.js 
@@ -182,6 +148,16 @@ export default App;
 
 
 
+
+
+
+
+
+
+
+
+
+
 // // [[[ 커스텀 Hooks 만들기 : 반복되는 로직을 쉽게 재사용하는 방법 ]]]
 // import React, { useRef, useReducer, useMemo, useCallback } from 'react';
 // import MemberList from './MemberList';
@@ -278,6 +254,44 @@ export default App;
 // }
 
 // export default App;
+
+
+
+
+// //  예제 useState  - tic tac toe 게임 
+// import React from "react";
+// import Board from "./Board"
+// import './board.css';
+
+// function App() {
+  
+//   return (
+//     <Board/>
+//   );
+// }
+// export default App;
+
+
+
+
+
+
+// // 예제 useReducer() 훅 - [ tic tac toe 게임   OX ]
+// import React from 'react';
+// import Game from "./Game";
+
+// function App() {
+//   return (
+//       <Game />
+//   );
+// }
+
+// export default App;
+
+
+
+
+
 
 
 
@@ -401,20 +415,26 @@ export default App;
 
 
 
-// //[[[ reducer 연습 - ReducerCounter 증감]]]
-// import React from "react";
-// import "./styles.css";
-// import ReducerCounter from "./ReducerCounter";
 
-// export default function App() {
-//   return (
-//     <div className="App">
-//       <ReducerCounter step={1} min={-3} max={5} />
-//       <hr />
-//       <ReducerCounter step={5} min={-100} max={100} />
-//     </div>
-//   );
-// }
+
+
+
+//[[[ reducer 연습 - ReducerCounter 증감]]]
+import React from "react";
+import "./styles.css";
+import ReducerCounter from "./ReducerCounter";
+
+export default function App() {
+  return (
+    <div className="App">
+      <ReducerCounter step={1} min={-3} max={5} />
+      <hr />
+      <ReducerCounter step={5} min={-100} max={100} />
+    </div>
+  );
+}
+
+
 
 
 
@@ -444,7 +464,15 @@ export default App;
 
 
 
-// [ tic tac toe with React Logo and Angualr Logo]
+
+
+
+
+
+
+
+
+// // [ tic tac toe with React Logo and Angualr Logo]
 // import React from 'react';
 // import Main from "./Main";
 // import './style.css';
@@ -465,30 +493,6 @@ export default App;
 // }
 
 // export default App;
-
-
-
-
-// [[[ O x QUIZ ]]]
-// import React from "react";
-// import Ox from "./Ox"
-// import Ox2 from "./Ox2"
-// import './App.css';
-
-// function App() {
-  
-//   return (
-//     <>
-//       <Ox/>
-//       <Ox2/>
-//     </>
-//   );
-// }
-
-// export default App;
-
-
-
 
 
 
