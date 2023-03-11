@@ -1,0 +1,70 @@
+.title{
+    color:burlywood
+}
+
+.title-player{
+    color:cornflowerblue
+}
+
+
+.board-row:after {
+    clear: both;
+    content: "";
+    display: table;
+  }
+
+.btn-square{
+    height: 80px;
+    width: 80px;
+    padding: 0;
+    float: left;
+    margin-right: -1px;
+    margin-top: -1px;
+
+    color:rgb(209, 126, 168);
+    font-size: 40px;
+
+    background-color: lightblue;
+    border: 1px solid #999;
+
+    text-align: center;
+
+
+
+}
+
+button:hover {
+    cursor: pointer;
+  }
+
+
+.status, .btn-restart {
+    margin-top: 10px;
+  }
+
+/** button styles **/
+.btn-restart {
+    padding: 10px 15px;
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+    border-radius: 0.25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  }
+  
+  .btn-restart:active {
+    color: #fff;
+    background-color: #0062cc;
+    border-color: #005cbf;
+  }
+  
+  .btn-restart:hover {
+    color: #fff;
+    background-color: #0069d9;
+    border-color: #0062cc;
+  }
+  
+  .btn-restart:focus {
+    box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 50%);
+  }  
+

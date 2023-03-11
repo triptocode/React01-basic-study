@@ -1,18 +1,54 @@
-// // [ 클래스형 컴포넌트 ] - index.js, ClassCountner.js 
+// // [ useState 예제 - tic tac toe 게임 ] 
 import React from "react";
-import ClassCounter from "./ClassCounter"
-import './App.css';
+import Board from "./Board"
+import './board.css';
 
 function App() {
   
   return (
-    <>
-      <ClassCounter/>
-    </>
+    <Board/>
   );
 }
 
 export default App;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // // [ 클래스형 컴포넌트 ] - index.js, ClassCountner.js 
+// import React from "react";
+// import ClassCounter from "./ClassCounter"
+// import './App.css';
+
+// function App() {
+  
+//   return (
+//     <>
+//       <ClassCounter/>
+//     </>
+//   );
+// }
+
+// export default App;
 
 
 
