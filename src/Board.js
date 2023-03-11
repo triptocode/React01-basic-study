@@ -27,14 +27,15 @@ function Board(){
         setIsX(!isX)
     }
 
-    // const winner = calculateWinner(squares)
-    // let status
-    
-    // if (winner) {
-    //   status = `Winner: ${winner}`;
-    // } else {
-    //   status = 'Next player: ' + (isX ? 'X' : 'O');
-    // }
+    const winner = calculateWinner(squares)
+    let status
+    if (winner) {
+      status = `Winner: ${winner}`;
+    } else {
+      status = 'Next player: ' + (isX ? 'X' : 'O');
+        
+      
+    }
     
     const handleRestart = () => {
       setIsX(true)
@@ -92,7 +93,7 @@ function Board(){
                     <Square ox={squares[8]} onBtnClick={()=> handleBtnClick(8)}/>
                 </div> 
 
-                {/* <div className="status" style={{color:'beige'}}>{status}</div> */}
+                <div className="status" style={{color:'beige'}}>{status}</div>
                 <button className="btn-restart" onClick={handleRestart}>Restart Game!</button>
             </div>
         </div>
@@ -123,26 +124,28 @@ function Board(){
 } // --Board 컴포넌트 영역 끝--
 
 
-// function calculateWinner(squares) {
-//     const winningPatterns = [
-//       [0, 1, 2],
-//       [3, 4, 5],
-//       [6, 7, 8],
-//       [0, 3, 6],
-//       [1, 4, 7],
-//       [2, 5, 8],
-//       [0, 4, 8],
-//       [2, 4, 6],
-//     ]
+function calculateWinner(squares) {
+    const winningPatterns = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ]
     
-//     for (let i = 0; i < winningPatterns.length; i++) {
-//       const [a, b, c] = winningPatterns[i];
-//       if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-//         return squares[a];
-//       }
-//     }
-//     return null;
-// }
+    for (let i = 0; i < winningPatterns.length; i++) {
+      const [a, b, c] = winningPatterns[i];
+
+      //  예:   if(x&&x===x&&x===x)가 참이면 { return x }
+      if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) { 
+        return squares[a];
+      }
+    }
+    return null;
+}
 
 
 
