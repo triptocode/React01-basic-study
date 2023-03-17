@@ -420,19 +420,19 @@
 
 
 //[[[ reducer 연습 - ReducerCounter 증감]]]
-import React from "react";
-import "./styles.css";
-import ReducerCounter from "./ReducerCounter";
+// import React from "react";
+// import "./styles.css";
+// import ReducerCounter from "./ReducerCounter";
 
-export default function App() {
-  return (
-    <div className="App">
-      <ReducerCounter step={1} min={-3} max={5} />
-      <hr />
-      <ReducerCounter step={5} min={-100} max={100} />
-    </div>
-  );
-}
+// export default function App() {
+//   return (
+//     <div className="App">
+//       <ReducerCounter step={1} min={-3} max={5} />
+//       <hr />
+//       <ReducerCounter step={5} min={-100} max={100} />
+//     </div>
+//   );
+// }
 
 
 
@@ -467,11 +467,6 @@ export default function App() {
 
 
 
-
-
-
-
-
 // // [ tic tac toe with React Logo and Angualr Logo]
 // import React from 'react';
 // import Main from "./Main";
@@ -493,6 +488,8 @@ export default function App() {
 // }
 
 // export default App;
+
+
 
 
 
@@ -538,89 +535,98 @@ export default function App() {
 
 
 
-
+// 최적화: useCallback [deps] : 함수재사용 + useMemo : 상관없는 컴포넌트 리랜더링방지
 // 하위 MemberList + CreateMember 와 상위 app.js\
 // prop ,function, 이벤트 -  네이밍 방법 -  참고링크: 
 // https://ellie-dev.tistory.com/13
 
-// import React, { useRef, useState, useMemo, useCallback } from 'react';
-// import MemberList from './MemberList';
-// import CreateMember from './CreateMember';
+import React, { useRef, useState, useMemo, useCallback } from 'react';
+import MemberList from './MemberList';
+import CreateMember from './CreateMember';
 
-//  function App() {
+ function App() {
 
-//   function countActiveUsers(users) {
-//     console.log('활성 사용자 수를 세는중...');
-//     return users.filter(user => user.active).length;
-//   }
+  function countActiveUsers(users) {
+    console.log('활성 사용자 수를 세는중...');
+    return users.filter(user => user.active).length;
+  }
 
+  const [inputs, setInputs] = useState({
+    username: '',
+    email: ''
+  });
 
-//     const [inputs, setInputs] = useState({
-//       username: '',
-//       email: ''
-//     });
-//     const { username, email } = inputs;
+  const { username, email } = inputs;
 
-//     const handleInputChange = useCallback(
-//         e => {
-//           const { name, value } = e.target;
-//           setInputs({ ...inputs, [name]: value});
-//         },
-//       [inputs]
-//      );
+  const handleInputChange = useCallback(
+      e => {
+        const { name, value } = e.target;
+        setInputs({ ...inputs, [name]: value});
+      },
+    [inputs] //useCallback에 [inputs]기능: 
+            // [inputs]바뀔때만 handleInputChange함수가 새로만들어지게 하고, inputs에 변경이 없을때는 기존에 만든 함수 재사용하게됨
+  );
 
-  
-//     const [users, setUsers] = useState([
-//         { id: 1, username: 'user1',email: 'user1@gmail.com', active: true },
-//         { id: 2, username: 'user2', email: 'user2@gmail.com', active: false },
-//         { id: 3, username: 'user3', email: 'user3@gmail.com' , active: false }
-//     ]);
-//     const nextId = useRef(4);
+  const [users, setUsers] = useState([
+      { id: 1, username: 'user1',email: 'user1@gmail.com', active: true },
+      { id: 2, username: 'user2', email: 'user2@gmail.com', active: false },
+      { id: 3, username: 'user3', email: 'user3@gmail.com' , active: false }
+  ]);
 
+  const nextId = useRef(4);
 
-//       // deps 에 users 가 들어있기 때문에 배열이 바뀔때마다 함수가 새로 만들어지는건, 당연합니다.
-//       // 그렇다면 이걸 최적화하고 싶다면 ?
-//       // 아래 화살표함수들의 deps 에서 users 를 지워서, 함수들에서 현재 useState 로 관리하는 users 를 참조하지 않게 하는것입니다
+      // deps 에 users 가 들어있기 때문에 배열이 바뀔때마다 함수가 새로 만들어지는건, 당연합니다.
+      // 그렇다면 이걸 최적화하고 싶다면 ?
+      // 아래 화살표함수들의 deps 에서 users 를 지워서, 함수들에서 현재 useState 로 관리하는 users 를 참조하지 않게 하는것입니다
 
-//     const handleCreateClick =  useCallback(
-//       () => {
-//           const user = { id: nextId.current, username, email };
-         
-//           setUsers(users.concat(user)); //     setUsers(users => users.concat(user));  // seUsers에 등록한 users 파라미터에서 최신users를 조회하기때문에 deps에 users 생략가능 
-//           //setUsers([...users, user]);  
-         
-//           setInputs({ username: '', email: ''});
-//           nextId.current += 1;
-//       }, [users, username, email]  //[username, email] 
-//       );
+  const handleCreateClick =  useCallback(
+    () => {
+        const user = { id: nextId.current, username, email };
+      
+        // setUsers(users.concat(user)); 
+        setUsers(users => users.concat(user));  // useMemo수정1: seUsers에 등록한 users 파라미터에서 최신users를 조회하기때문에 deps에 users 생략가능 
+        //setUsers([...users, user]);  
+      
+        setInputs({ username: '', email: ''});
+        nextId.current += 1;
+    }, 
+    //  [users, username, email]  
+      [username, email] // useMemo수정1
+  );
 
-//       const handleDeleteClick = useCallback(id => {
-//         setUsers(users.filter(user => user.id !== id)); // setUsers(users => users.filter(user => user.id !== id));
-//       },  [users] //  },  []
-//     );
+  const handleDeleteClick = useCallback(id => {
+      // setUsers(users.filter(user => user.id !== id)); 
+      setUsers(users => users.filter(user => user.id !== id));   // useMemo수정2
+    },  
+    // [users] 
+        [] // useMemo수정2  
+    
+  );
 
-//     const handleToggleClick = useCallback(
-//       id => {
-//         setUsers( //  setUsers(users =>
-//             users.map( user => user.id===id?{...user, active: !user.active}:user))
-//        },
-//       [users]  // []
-//    );
+  const handleToggleClick = useCallback(
+    id => {
+      // setUsers( 
+      setUsers(users =>   // useMemo수정3
+          users.map( user => user.id===id?{...user, active: !user.active}:user))
+      },
+    // [users]  
+    []  // useMemo수정2
+   );
 
  
-//   const count = useMemo(() => countActiveUsers(users), [users]);
+  const count = useMemo(() => countActiveUsers(users), [users]);
 
-//     return (
-//       <> 
-//       {/* <하위컴포넌트명 prop네임={배열명,함수명등 담는데이터} />*/}
-//        <CreateMember propUsername={username} propEmail={email} onInputChange={handleInputChange} onCreateClick={handleCreateClick}/>
-//        <MemberList propUsers={users} deleteClick={handleDeleteClick} toggleClick={handleToggleClick}/>
-//        <div>활성사용자 수 : {count}</div>
-//       </>
-//     );
-//   } 
+  return (
+    <> 
+    {/* <하위컴포넌트명 prop네임={배열명,함수명등 담는데이터} />*/}
+      <CreateMember propUsername={username} propEmail={email} onInputChange={handleInputChange} onCreateClick={handleCreateClick}/>
+      <MemberList propUsers={users} deleteClick={handleDeleteClick} toggleClick={handleToggleClick}/>
+      <div>활성사용자 수 : {count}</div>
+    </>
+  );
+} 
 
-//   export default App;
+  export default App;
 
 
 

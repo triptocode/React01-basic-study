@@ -1,7 +1,9 @@
 import React , {useEffect} from 'react';
 
-// const User = React.memo(function User({ user, onRemove, onToggle }) {
-function User({propUser, onDeleteClick, onToggleClick}) {
+
+const User = React.memo( function User({ propUser, onDeleteClick, onToggleClick }) {
+//  React.memo 두곳을 수정 - [첫번째] 하단의 function User 함수를 위처럼  const User = React.memo( 로 감싼다. 
+// function User({propUser, onDeleteClick, onToggleClick}) {
 
   //2. propUser 작성 반복 피하는 방법 - 비구조 (구조분해)
   const {username, email, id, active } = propUser
@@ -32,7 +34,7 @@ function User({propUser, onDeleteClick, onToggleClick}) {
   //     <button onClick={()=>{onDeleteClick(propUser.id)}}>삭제</button>
   //   </div>
   // );
-}
+});
 function MemberList({ propUsers, deleteClick, toggleClick }) {
   return (
     <div> 
@@ -45,7 +47,7 @@ function MemberList({ propUsers, deleteClick, toggleClick }) {
     </div>
   );
 }
-export default MemberList;
-// export default React.memo(MemberList);
+// export default MemberList; 
+export default React.memo(MemberList); // Props가 바뀔때만 리렌더링을 해줌
 
 

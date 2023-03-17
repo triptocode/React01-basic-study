@@ -26,5 +26,5 @@ function CreateMember({ username, email, onInputChange, onCreateClick }) {
   );
 }
 
-export default CreateMember;
-// export default React.memo(CreateMember);
+// export default CreateMember;
+export default React.memo(CreateMember);
