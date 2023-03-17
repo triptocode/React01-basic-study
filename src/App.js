@@ -210,16 +210,19 @@ function reducer(state, action) {
 }
 
 function App() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   // 커스텀훅스 3. inputs입력값, OnChange관련함수, reset 3개를 커스텀hooks를 만들어 처리
-  const [{ username, email }, handleInputChange, reset] = useInputs({  
+  const [form, handleInputChange, reset] = useInputs({  
     username: '',
     email: ''
   });
 
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const {username, email} =form
   const nextId = useRef(4);
 
   const { users } = state;
+  // const {username,email}= state.inputs;
 
   const handleCreateClick = useCallback(() => {
     dispatch({
