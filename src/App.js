@@ -1,4 +1,11 @@
 
+
+
+
+
+
+
+
 // // 스마트홈 예제 - useCallback + useState
 // import React from "react";
 // import './App.css';
@@ -179,17 +186,153 @@
 
 
 
-// contextAPI : text good, bad 예제 
-//  https://velog.io/@sji7532/JavaScript-React-context-API%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EC%97%AC-%EC%A0%84%EC%97%AD%EA%B0%92-%EA%B4%80%EB%A6%AC%ED%95%98%EA%B8%B0
+// // contextAPI : text good, bad 예제 
+// //  https://velog.io/@sji7532/JavaScript-React-context-API%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EC%97%AC-%EC%A0%84%EC%97%AD%EA%B0%92-%EA%B4%80%EB%A6%AC%ED%95%98%EA%B8%B0
 
-import React from 'react';
-import ContextSample from './ContextSample'
+// import React from 'react';
+// import ContextSample from './ContextSample'
+
+// function App() {
+  
+//   return (
+//       <ContextSample/>
+
+//   );
+// }
+
+// export default App;
+
+
+
+
+
+
+
+
+
+//  강의 - 커스텀훅스 
+//  [UerList, CreateUser구현  - 2. useReducer 함수로 구현 
+
+
+import React, { useRef, useReducer, useMemo, useCallback } from 'react';
+import UserList from './UserList';
+import ArrayAdd from './ArrayAdd';
+import useInputs from './useInputs';
+
+
+function countActiveUsers(users) {
+  console.log('활성 사용자 수를 세는중...');
+  return users.filter(user => user.active).length;
+}
+
+
+// 2. useReducer() 의 두번째 파라미터 initialState : 기존코드 useState(초기값정의) 함수를 사용한 배열2개 : inputs 배열과 users배열의 초기값을 initialState 변수에 넣어둠 
+const initialState = {
+  // inputs:{ username: '', email: ''},
+  users: [ { id: 1, username: 'user1',email: 'user1@gmail.com', active: true },
+           { id: 2, username: 'user2', email: 'user2@gmail.com', active: false },
+           { id: 3, username: 'user3', email: 'user3@gmail.com' , active: false }
+         ]
+};
+
+// 3. useReducer() 의 첫번째 파라미터 reducer:  
+function reducer(state, action) {
+  switch (action.type) {
+      // case 'CHANGE_INPUT':
+      //   return { ...state,
+      //             inputs: { ...state.inputs, 
+      //                       [action.name]: action.value
+      //                     }
+      //   };
+      case 'CREATE_USER':
+        return { inputs: initialState.inputs,
+                 users: state.users.concat(action.user)   
+        };
+      case 'TOGGLE_USER':
+        return { ...state,
+                 users: state.users.map(user =>
+                      user.id === action.id ? { ...user, active: !user.active } : user
+                      )
+        };
+    case 'REMOVE_USER':
+      return {  ...state,
+                users: state.users.filter(user => user.id !== action.id)
+      };
+    default:
+      return state;
+  }
+}
 
 function App() {
-  
-  return (
-      <ContextSample/>
 
+  const [state, dispatch] = useReducer(reducer, initialState); 
+
+  // 커스텀훅스 3. inputs입력값, OnChange관련함수, reset 3개를 커스텀hooks를 만들어 처리
+  const [form, handleInputChange, reset] = useInputs({  
+    username: '',
+    email: ''
+  });
+
+
+  const {username, email} =form
+
+  const nextId = useRef(4);
+
+  const { users } = state;
+
+  // input창 관련은 커스텀훅스로 대체할거라 인풋 코드 관련만 주석처리 -삭제 
+  // const { username, email } = state.inputs;
+  // console.log(state);
+
+  // const handleInputChange  = useCallback(e => {
+  //   const { name, value } = e.target;
+  //   dispatch({
+  //     type: 'CHANGE_INPUT', 
+  //     name, 
+  //     value
+  //   });
+  // }, []);
+
+  const handleCreateClick  = useCallback(() => {
+    dispatch({
+      type: 'CREATE_USER',
+      user: {
+        id: nextId.current,
+        username,
+        email
+      }
+    });
+    reset();  // 커스텀훅스 4. 새로운 항목을 추가 할 때 input 값을 초기화해야 하므로 데이터 등록 후 reset() 을 호출
+    nextId.current += 1;
+  }, [username, email, reset]);
+
+  const handleToggleClick  = useCallback(id => {
+    dispatch({
+      type: 'TOGGLE_USER',
+      id
+    });
+  }, []);
+
+  const handleDeleteClick  = useCallback(id => {
+    dispatch({
+      type: 'REMOVE_USER',
+      id
+    });
+  }, []);
+
+  const count = useMemo(() => countActiveUsers(users), [users]);
+
+  return (
+    <>
+      <ArrayAdd
+        username={username}
+        email={email}
+        onInputChange={handleInputChange }
+        onCreateClick={handleCreateClick }
+      />
+      <UserList propUsers={users} toggleClick={handleToggleClick } deleteClick={handleDeleteClick } />
+      <div>활성사용자 수 : {count}</div>
+    </>
   );
 }
 
@@ -200,11 +343,16 @@ export default App;
 
 
 
+
+
+
+
+
 // // [[[ 커스텀 Hooks 만들기 : 반복되는 로직을 쉽게 재사용하는 방법 ]]]
 // import React, { useRef, useReducer, useMemo, useCallback } from 'react';
 // import MemberList from './MemberList';
 // import CreateMember from './CreateMember';
-// import useInputs from './hooks/useInputs';
+// import useInputs from './useInputs';
 
 // function countActiveUsers(users) {
 //   console.log('활성 사용자 수를 세는중...');
