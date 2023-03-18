@@ -1,4 +1,31 @@
 
+// // 스마트홈 예제 - useCallback + useState
+// import React from "react";
+// import './App.css';
+// import SmartHome from "./SmartHome";
+
+// const App = () => {
+//   return (
+//     // <div style={{ position: "absolute", top: "50%", left: "50%" }}>
+//     <div className="App-header">
+//       <h3>My Smart Home Light </h3>
+//       <SmartHome />
+//     </div>
+//   );
+// };
+
+// export default App;
+
+
+
+
+
+
+
+
+
+
+
 
 // // // [ 클래스형 컴포넌트 ] - index.js, ClassCountner.js 
 // import React from "react";
@@ -145,6 +172,9 @@
 // }
 
 // export default App;
+
+
+
 
 
 
@@ -326,7 +356,7 @@ export default App;
 
 
 
-// // [[[ useReducer()함수 연습 ]]] 
+// // [ MemberList+CreateMember 방법2 ]- useReducer()함수 활용
 // import React, { useRef, useReducer, useMemo, useCallback } from 'react';
 // import MemberList from './MemberList';
 // import CreateMember from './CreateMember';
@@ -446,7 +476,31 @@ export default App;
 
 
 
-// // (최적화 함수2개) useCallback [deps] : 함수재사용 + useMemo : 상관없는 컴포넌트 리랜더링방지
+
+//[[[ reducer 연습 - ReducerCounter 증감]]]
+// import React from "react";
+// import "./styles.css";
+// import ReducerCounter from "./ReducerCounter";
+
+// export default function App() {
+//   return (
+//     <div className="App">
+//       <ReducerCounter step={1} min={-3} max={5} />
+//       <hr />
+//       <ReducerCounter step={5} min={-100} max={100} />
+//     </div>
+//   );
+// }
+
+
+
+
+
+
+
+
+
+// // [ MemberList+CreateMember 방법1 ]- useState()함수 활용+ (최적화 함수2개) useCallback [deps] : 함수재사용 + useMemo : 상관없는 컴포넌트 리랜더링방지
 // // 하위 MemberList + CreateMember 와 상위 app.js\
 // // prop ,function, 이벤트 -  네이밍 방법 -  참고링크: 
 // // https://ellie-dev.tistory.com/13
@@ -545,28 +599,6 @@ export default App;
 
 
 
-//[[[ reducer 연습 - ReducerCounter 증감]]]
-// import React from "react";
-// import "./styles.css";
-// import ReducerCounter from "./ReducerCounter";
-
-// export default function App() {
-//   return (
-//     <div className="App">
-//       <ReducerCounter step={1} min={-3} max={5} />
-//       <hr />
-//       <ReducerCounter step={5} min={-100} max={100} />
-//     </div>
-//   );
-// }
-
-
-
-
-
-
-
-
 
 
 // // [ MathQuiz ] - useRef, useState 연습
@@ -622,7 +654,7 @@ export default App;
 
 
 
-//Number.js -  useEffect() - 예제2 
+// useEffect() - 예제2 
 
 // import './App.css';
 // import React from 'react';
@@ -631,9 +663,7 @@ export default App;
 // function App() {
   
 //   return (
-//     <>
 //       <Number/>
-//     </>
 //   );
 // }
 
@@ -642,7 +672,11 @@ export default App;
 
 
 
-// UseEffect.js - useEffect() 예제1
+
+
+
+
+// useEffect() 예제1
 
 // import './App.css';
 // import React from 'react';
@@ -651,9 +685,7 @@ export default App;
 // function App() {
   
 //   return (
-//     <>
 //       <UseEffect/>
-//     </>
 //   );
 // }
 
@@ -700,6 +732,10 @@ export default App;
 // export default App;
 
 
+
+
+
+
 // 1. 프로퍼티(props)란?
 //  - 상위 컴포넌트가 하위 컴포넌트에 값을 전달할때 사용한다.(단방향 데이터 흐름 갖는다.)
 //  - 프로퍼티는 수정할 수 없다는 특징이 있다.(자식입장에선 읽기 전용인 데이터이다.)
@@ -723,6 +759,12 @@ export default App;
 // }
 
 // export default App;
+
+
+
+
+
+
 
 
 // - 02-2 Wrapper.js
@@ -813,6 +855,8 @@ export default App;
 
 
 
+
+
 // 8. ArrayRender1.js
 // import React from 'react';
 // import ArrayRender1 from './ArrayRender1';
@@ -822,8 +866,10 @@ export default App;
 //     <ArrayRender1/>
 //   );
 // }
-
 // export default App;
+
+
+
 
 
 // 9. ArrayRender2.js
@@ -852,6 +898,10 @@ export default App;
 // }
 
 // export default App;
+
+
+
+
 
 
 // 10-방법2. 상위컴포넌트 App.js에 users 배열작성, props로 하위UserList1.js에 users배열전달
@@ -884,6 +934,9 @@ export default App;
 // }
 
 // export default App;
+
+
+
 
 
 
