@@ -149,125 +149,137 @@
 
 
 
+// contextAPI : text good, bad 예제 
+//  https://velog.io/@sji7532/JavaScript-React-context-API%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EC%97%AC-%EC%A0%84%EC%97%AD%EA%B0%92-%EA%B4%80%EB%A6%AC%ED%95%98%EA%B8%B0
 
-
-
-
-
-
-
-
-
-// [[[ 커스텀 Hooks 만들기 : 반복되는 로직을 쉽게 재사용하는 방법 ]]]
-import React, { useRef, useReducer, useMemo, useCallback } from 'react';
-import MemberList from './MemberList';
-import CreateMember from './CreateMember';
-import useInputs from './hooks/useInputs';
-
-function countActiveUsers(users) {
-  console.log('활성 사용자 수를 세는중...');
-  return users.filter(user => user.active).length;
-}
-
-const initialState = {
-  // 커스텀훅스 1-1 useInputs.js파일에서 커스텀훅스를 만들어 App.js에 inputs입력값, OnChange관련함수, reset 3개를 처리한다.
-  // 커스텀훅스 1-2. App.js 현재파일 하단의 inputs(입력창 내용초기값)는 삭제 : 이제부터 커스텀훅스 useInputs함수를 만든걸로  inputs입력값, OnChange관련함수, reset 3개를 처리할 거라서 
-  //   inputs:{ username: '', email: ''},  
-    users: [ { id: 1, username: 'user1',email: 'user1@gmail.com', active: true },
-             { id: 2, username: 'user2', email: 'user2@gmail.com', active: false },
-             { id: 3, username: 'user3', email: 'user3@gmail.com' , active: false }
-           ]
-};
-
-function reducer(state, action) {
-  switch (action.type) {
-    // 커스텀훅스 2.  case 'CHANGE_INPUT'는 커스텀훅스로 대체할거라 삭제(주석처리)
-  // case 'CHANGE_INPUT':
-  //   return {
-  //     ...state,
-  //     inputs: {
-  //       ...state.inputs,
-  //       [action.name]: action.value
-  //     }
-  //   }; 
-    case 'CREATE_USER':
-      return {
-        users: state.users.concat(action.user)
-      };
-    case 'TOGGLE_USER':
-      return {
-        users: state.users.map(user =>
-          user.id === action.id ? { ...user, active: !user.active } : user
-        )
-      };
-    case 'REMOVE_USER':
-      return {
-        users: state.users.filter(user => user.id !== action.id)
-      };
-    default:
-      return state;
-  }
-}
+import React from 'react';
+import ContextSample from './ContextSample'
 
 function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
-
-  // 커스텀훅스 3. inputs입력값, OnChange관련함수, reset 3개를 커스텀hooks를 만들어 처리
-  const [form, handleInputChange, reset] = useInputs({  
-    username: '',
-    email: ''
-  });
-
-  const {username, email} =form
-  const nextId = useRef(4);
-
-  const { users } = state;
-  // const {username,email}= state.inputs;
-
-  const handleCreateClick = useCallback(() => {
-    dispatch({
-      type: 'CREATE_USER',
-      user: {
-        id: nextId.current,
-        username,
-        email
-      }
-    });
-
-    reset();  // 커스텀훅스 4. 새로운 항목을 추가 할 때 input 값을 초기화해야 하므로 데이터 등록 후 reset() 을 호출
-    nextId.current += 1;
-  }, [username, email, reset]); // 컴스텀훅스 4. reset : const handleCreateClick = useCallback 유즈콜백안에 참조하는 데이터는 depth에 넣어줌
-
-  const handleToggleClick = useCallback(id => {
-    dispatch({
-      type: 'TOGGLE_USER',
-      id
-    });
-  }, []);
-
-  const handleDeleteClick = useCallback(id => {
-    dispatch({
-      type: 'REMOVE_USER',
-      id
-    });
-  }, []);
-
-  const count = useMemo(() => countActiveUsers(users), [users]);
+  
   return (
-    <>
-       <CreateMember
-         username={username}
-         email={email}
-         onInputChange={handleInputChange }         
-         onCreateClick={handleCreateClick }
-       />
-       <MemberList propUsers={users} toggleClick={handleToggleClick } deleteClick={handleDeleteClick } />
-      <div>활성사용자 수 : {count}</div>
-    </>
+      <ContextSample/>
+
   );
 }
 
 export default App;
+
+
+
+
+
+
+// // [[[ 커스텀 Hooks 만들기 : 반복되는 로직을 쉽게 재사용하는 방법 ]]]
+// import React, { useRef, useReducer, useMemo, useCallback } from 'react';
+// import MemberList from './MemberList';
+// import CreateMember from './CreateMember';
+// import useInputs from './hooks/useInputs';
+
+// function countActiveUsers(users) {
+//   console.log('활성 사용자 수를 세는중...');
+//   return users.filter(user => user.active).length;
+// }
+
+// const initialState = {
+//   // 커스텀훅스 1-1 useInputs.js파일에서 커스텀훅스를 만들어 App.js에 inputs입력값, OnChange관련함수, reset 3개를 처리한다.
+//   // 커스텀훅스 1-2. App.js 현재파일 하단의 inputs(입력창 내용초기값)는 삭제 : 이제부터 커스텀훅스 useInputs함수를 만든걸로  inputs입력값, OnChange관련함수, reset 3개를 처리할 거라서 
+//   //   inputs:{ username: '', email: ''},  
+//     users: [ { id: 1, username: 'user1',email: 'user1@gmail.com', active: true },
+//              { id: 2, username: 'user2', email: 'user2@gmail.com', active: false },
+//              { id: 3, username: 'user3', email: 'user3@gmail.com' , active: false }
+//            ]
+// };
+
+// function reducer(state, action) {
+//   switch (action.type) {
+//     // 커스텀훅스 2.  case 'CHANGE_INPUT'는 커스텀훅스로 대체할거라 삭제(주석처리)
+//   // case 'CHANGE_INPUT':
+//   //   return {
+//   //     ...state,
+//   //     inputs: {
+//   //       ...state.inputs,
+//   //       [action.name]: action.value
+//   //     }
+//   //   }; 
+//     case 'CREATE_USER':
+//       return {
+//         users: state.users.concat(action.user)
+//       };
+//     case 'TOGGLE_USER':
+//       return {
+//         users: state.users.map(user =>
+//           user.id === action.id ? { ...user, active: !user.active } : user
+//         )
+//       };
+//     case 'REMOVE_USER':
+//       return {
+//         users: state.users.filter(user => user.id !== action.id)
+//       };
+//     default:
+//       return state;
+//   }
+// }
+
+// function App() {
+//   const [state, dispatch] = useReducer(reducer, initialState);
+
+//   // 커스텀훅스 3. inputs입력값, OnChange관련함수, reset 3개를 커스텀hooks를 만들어 처리
+//   const [form, handleInputChange, reset] = useInputs({  
+//     username: '',
+//     email: ''
+//   });
+
+//   const {username, email} =form
+//   const nextId = useRef(4);
+
+//   const { users } = state;
+//   // const {username,email}= state.inputs;
+
+//   const handleCreateClick = useCallback(() => {
+//     dispatch({
+//       type: 'CREATE_USER',
+//       user: {
+//         id: nextId.current,
+//         username,
+//         email
+//       }
+//     });
+
+//     reset();  // 커스텀훅스 4. 새로운 항목을 추가 할 때 input 값을 초기화해야 하므로 데이터 등록 후 reset() 을 호출
+//     nextId.current += 1;
+//   }, [username, email, reset]); // 컴스텀훅스 4. reset : const handleCreateClick = useCallback 유즈콜백안에 참조하는 데이터는 depth에 넣어줌
+
+//   const handleToggleClick = useCallback(id => {
+//     dispatch({
+//       type: 'TOGGLE_USER',
+//       id
+//     });
+//   }, []);
+
+//   const handleDeleteClick = useCallback(id => {
+//     dispatch({
+//       type: 'REMOVE_USER',
+//       id
+//     });
+//   }, []);
+
+//   const count = useMemo(() => countActiveUsers(users), [users]);
+//   return (
+//     <>
+//        <CreateMember
+//          username={username}
+//          email={email}
+//          onInputChange={handleInputChange }         
+//          onCreateClick={handleCreateClick }
+//        />
+//        <MemberList propUsers={users} toggleClick={handleToggleClick } deleteClick={handleDeleteClick } />
+//       <div>활성사용자 수 : {count}</div>
+//     </>
+//   );
+// }
+
+// export default App;
 
 
 
