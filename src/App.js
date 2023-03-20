@@ -6,22 +6,26 @@
 
 
 
-// // 스마트홈 예제 - useCallback + useState
-// import React from "react";
-// import './App.css';
-// import SmartHome from "./SmartHome";
+// 스마트홈 예제 - useCallback + useState
+// SmartHome.js 에서 useCallback 사용안하고, 사용하고 차이 비교
+// 브라우저 콘솔창열고 , 침실 클릭시 light가 on 을해본다.
+// usecallback 사용안하면 침실만 on되는게 아니라 나머지 주방,욕실도 불필요하게 on 됨.
 
-// const App = () => {
-//   return (
-//     // <div style={{ position: "absolute", top: "50%", left: "50%" }}>
-//     <div className="App-header">
-//       <h3>My Smart Home Light </h3>
-//       <SmartHome />
-//     </div>
-//   );
-// };
+import React from "react";
+import './App.css';
+import SmartHome from "./SmartHome";
 
-// export default App;
+const App = () => {
+  return (
+    // <div style={{ position: "absolute", top: "50%", left: "50%" }}>
+    <div className="App-header">
+      <h3>My Smart Home Light </h3>
+      <SmartHome />
+    </div>
+  );
+};
+
+export default App;
 
 
 
@@ -237,130 +241,130 @@
 
 
 
-import React, { useRef, useReducer, useMemo, useCallback } from 'react';
-import UserList from './UserList';
-import ArrayAdd from './ArrayAdd';
-import useInputs from './useInputs';
-import produce from 'immer'; // 1. immer 설치후 import하기
+// import React, { useRef, useReducer, useMemo, useCallback } from 'react';
+// import UserList from './UserList';
+// import ArrayAdd from './ArrayAdd';
+// import useInputs from './useInputs';
+// import produce from 'immer'; // 1. immer 설치후 import하기
 
 
-// immer - 1. 아래의 코드는 immer 의 produce를 브라우저 개발자도구 콘솔에서 사용하기 위해 등록
-window.produce = produce;
-// immer - 2.
-// 개발자도구를 열어 콘솔탭에서
-// 아래 4개를 각각 입력하면서 immer 의 produce에 대해 알아본다.
-// produce
-// const state = { changedNum:1 , fixedNum:2};
-// const nextState = produce(state, draft => { draft.changedNum +=3})
-// nextState
+// // immer - 1. 아래의 코드는 immer 의 produce를 브라우저 개발자도구 콘솔에서 사용하기 위해 등록
+// window.produce = produce;
+// // immer - 2.
+// // 개발자도구를 열어 콘솔탭에서
+// // 아래 4개를 각각 입력하면서 immer 의 produce에 대해 알아본다.
+// // produce
+// // const state = { changedNum:1 , fixedNum:2};
+// // const nextState = produce(state, draft => { draft.changedNum +=3})
+// // nextState
 
 
-function countActiveUsers(users) {
-  console.log('활성 사용자 수를 세는중...');
-  return users.filter(user => user.active).length;
-}
+// function countActiveUsers(users) {
+//   console.log('활성 사용자 수를 세는중...');
+//   return users.filter(user => user.active).length;
+// }
 
 
-const initialState = {
-  users: [ { id: 1, username: 'user1',email: 'user1@gmail.com', active: true },
-           { id: 2, username: 'user2', email: 'user2@gmail.com', active: false },
-           { id: 3, username: 'user3', email: 'user3@gmail.com' , active: false }
-         ]
-};
+// const initialState = {
+//   users: [ { id: 1, username: 'user1',email: 'user1@gmail.com', active: true },
+//            { id: 2, username: 'user2', email: 'user2@gmail.com', active: false },
+//            { id: 3, username: 'user3', email: 'user3@gmail.com' , active: false }
+//          ]
+// };
 
  
-function reducer(state, action) {
-    switch (action.type) {
+// function reducer(state, action) {
+//     switch (action.type) {
 
-          case 'CREATE_USER':
-            return produce(state, draft => {
-              draft.users.push(action.user);
-            });
-            // return { inputs: initialState.inputs,
-            //         users: state.users.concat(action.user)   
-            // };
-          case 'TOGGLE_USER':
-            return produce(state, draft => {
-              const user = draft.users.find(user => user.id === action.id);
-              user.active = !user.active;
-            });
-            // return { ...state,
-            //         users: state.users.map(user =>
-            //               user.id === action.id ? { ...user, active: !user.active } : user
-            //               )
-            // };
-          case 'REMOVE_USER':
-            return produce(state, draft => {
-              const index = draft.users.findIndex(user => user.id === action.id);
-              draft.users.splice(index, 1);
-            });
-            // return {  ...state,
-            //           users: state.users.filter(user => user.id !== action.id)
-            // };
-          default:
-            return state;
-    }
-}
+//           case 'CREATE_USER':
+//             return produce(state, draft => {
+//               draft.users.push(action.user);
+//             });
+//             // return { inputs: initialState.inputs,
+//             //         users: state.users.concat(action.user)   
+//             // };
+//           case 'TOGGLE_USER':
+//             return produce(state, draft => {
+//               const user = draft.users.find(user => user.id === action.id);
+//               user.active = !user.active;
+//             });
+//             // return { ...state,
+//             //         users: state.users.map(user =>
+//             //               user.id === action.id ? { ...user, active: !user.active } : user
+//             //               )
+//             // };
+//           case 'REMOVE_USER':
+//             return produce(state, draft => {
+//               const index = draft.users.findIndex(user => user.id === action.id);
+//               draft.users.splice(index, 1);
+//             });
+//             // return {  ...state,
+//             //           users: state.users.filter(user => user.id !== action.id)
+//             // };
+//           default:
+//             return state;
+//     }
+// }
 
-function App() {
+// function App() {
 
-  const [state, dispatch] = useReducer(reducer, initialState); 
+//   const [state, dispatch] = useReducer(reducer, initialState); 
 
-  const [form, handleInputChange, reset] = useInputs({  
-    username: '',
-    email: ''
-  });
-  const {username, email} =form
+//   const [form, handleInputChange, reset] = useInputs({  
+//     username: '',
+//     email: ''
+//   });
+//   const {username, email} =form
 
-  const nextId = useRef(4);
+//   const nextId = useRef(4);
 
-  const { users } = state;
+//   const { users } = state;
 
 
-  const handleCreateClick  = useCallback(() => {
-    dispatch({
-      type: 'CREATE_USER',
-      user: {
-        id: nextId.current,
-        username,
-        email
-      }
-    });
-    reset();  
-    nextId.current += 1;
-  }, [username, email, reset]);
+//   const handleCreateClick  = useCallback(() => {
+//     dispatch({
+//       type: 'CREATE_USER',
+//       user: {
+//         id: nextId.current,
+//         username,
+//         email
+//       }
+//     });
+//     reset();  
+//     nextId.current += 1;
+//   }, [username, email, reset]);
 
-  const handleToggleClick  = useCallback(id => {
-    dispatch({
-      type: 'TOGGLE_USER',
-      id
-    });
-  }, []);
+//   const handleToggleClick  = useCallback(id => {
+//     dispatch({
+//       type: 'TOGGLE_USER',
+//       id
+//     });
+//   }, []);
 
-  const handleDeleteClick  = useCallback(id => {
-    dispatch({
-      type: 'REMOVE_USER',
-      id
-    });
-  }, []);
+//   const handleDeleteClick  = useCallback(id => {
+//     dispatch({
+//       type: 'REMOVE_USER',
+//       id
+//     });
+//   }, []);
 
-  const count = useMemo(() => countActiveUsers(users), [users]);
+//   const count = useMemo(() => countActiveUsers(users), [users]);
 
-  return (
-    <>
-      <ArrayAdd
-        username={username}
-        email={email}
-        onInputChange={handleInputChange }
-        onCreateClick={handleCreateClick }
-      />
-      <UserList propUsers={users} toggleClick={handleToggleClick } deleteClick={handleDeleteClick } />
-      <div>활성사용자 수 : {count}</div>
-    </>
-  );
-}
+//   return (
+//     <>
+//       <ArrayAdd
+//         username={username}
+//         email={email}
+//         onInputChange={handleInputChange }
+//         onCreateClick={handleCreateClick }
+//       />
+//       <UserList propUsers={users} toggleClick={handleToggleClick } deleteClick={handleDeleteClick } />
+//       <div>활성사용자 수 : {count}</div>
+//     </>
+//   );
+// }
 
-export default App;
+// export default App;
 
 
 
