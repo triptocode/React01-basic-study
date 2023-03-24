@@ -1,29 +1,19 @@
 
 
 
-
-
-
-
-
-// 스마트홈 예제 - useCallback + useState
-// SmartHome.js 에서 useCallback 사용안하고, 사용하고 차이 비교
-// 브라우저 콘솔창열고 , 침실 클릭시 light가 on 을해본다.
-// usecallback 사용안하면 침실만 on되는게 아니라 나머지 주방,욕실도 불필요하게 on 됨.
-
+// 230325 강의  [ 클래스형 컴포넌트 ] - index.js, ClassCountner.js 
 import React from "react";
+import ClassCounter from "./ClassCounter"
 import './App.css';
-import SmartHome from "./SmartHome";
 
-const App = () => {
+function App() {
+  
   return (
-    // <div style={{ position: "absolute", top: "50%", left: "50%" }}>
-    <div className="App-header">
-      <h3>My Smart Home Light </h3>
-      <SmartHome />
-    </div>
+    <>
+      <ClassCounter/>
+    </>
   );
-};
+}
 
 export default App;
 
@@ -37,22 +27,192 @@ export default App;
 
 
 
+// //  230325 강의 - immer   - 설치명령어는  yarn add immer
+// //  [UerList, CreateUser구현  - 2. useReducer 함수 + 커스텀훅스 useInputs
 
-// // // [ 클래스형 컴포넌트 ] - index.js, ClassCountner.js 
-// import React from "react";
-// import ClassCounter from "./ClassCounter"
-// import './App.css';
+// // 추가 참고사항 js 문법
+
+// // const animals = ['개', '고양이', '참새'];
+// // const anotherAnimals = [...animals, '비둘기'];
+// // console.log(animals);
+// // console.log(anotherAnimals);
+
+
+// // const obj= {
+// //     a: 1,
+// //     b: 2
+// //   };
+// // // console.log(obj.a)
+// // // console.log(obj.b)
+// // console.log(obj)
+
+// // obj.b = 3;
+// // console.log(obj)
+
+
+
+
+
+
+// import React, { useRef, useReducer, useMemo, useCallback } from 'react';
+// import UserList from './UserList';
+// import ArrayAdd from './ArrayAdd';
+// import useInputs from './useInputs';
+// import produce from 'immer'; // 1. immer 설치후 import하기
+
+
+// // immer - 1. 아래의 코드는 immer 의 produce를 브라우저 개발자도구 콘솔에서 사용하기 위해 등록
+// window.produce = produce;
+// // immer - 2.
+// // 개발자도구를 열어 콘솔탭에서
+// // 아래 4개를 각각 입력하면서 immer 의 produce에 대해 알아본다.
+// // produce
+// // const state = { changedNum:1 , fixedNum:2};
+// // const nextState = produce(state, draft => { draft.changedNum +=3})
+// // nextState
+
+
+// function countActiveUsers(users) {
+//   console.log('활성 사용자 수를 세는중...');
+//   return users.filter(user => user.active).length;
+// }
+
+
+// const initialState = {
+//   users: [ { id: 1, username: 'user1',email: 'user1@gmail.com', active: true },
+//            { id: 2, username: 'user2', email: 'user2@gmail.com', active: false },
+//            { id: 3, username: 'user3', email: 'user3@gmail.com' , active: false }
+//          ]
+// };
+
+ 
+// function reducer(state, action) {
+//     switch (action.type) {
+
+//           case 'CREATE_USER':
+//             return produce(state, draft => {
+//               draft.users.push(action.user);
+//             });
+//             // return { inputs: initialState.inputs,
+//             //         users: state.users.concat(action.user)   
+//             // };
+//           case 'TOGGLE_USER':
+//             return produce(state, draft => {
+//               const user = draft.users.find(user => user.id === action.id);
+//               user.active = !user.active;
+//             });
+//             // return { ...state,
+//             //         users: state.users.map(user =>
+//             //               user.id === action.id ? { ...user, active: !user.active } : user
+//             //               )
+//             // };
+//           case 'REMOVE_USER':
+//             return produce(state, draft => {
+//               const index = draft.users.findIndex(user => user.id === action.id);
+//               draft.users.splice(index, 1);
+//             });
+//             // return {  ...state,
+//             //           users: state.users.filter(user => user.id !== action.id)
+//             // };
+//           default:
+//             return state;
+//     }
+// }
 
 // function App() {
-  
+
+//   const [state, dispatch] = useReducer(reducer, initialState); 
+
+//   const [form, handleInputChange, reset] = useInputs({  
+//     username: '',
+//     email: ''
+//   });
+//   const {username, email} =form
+
+//   const nextId = useRef(4);
+
+//   const { users } = state;
+
+
+//   const handleCreateClick  = useCallback(() => {
+//     dispatch({
+//       type: 'CREATE_USER',
+//       user: {
+//         id: nextId.current,
+//         username,
+//         email
+//       }
+//     });
+//     reset();  
+//     nextId.current += 1;
+//   }, [username, email, reset]);
+
+//   const handleToggleClick  = useCallback(id => {
+//     dispatch({
+//       type: 'TOGGLE_USER',
+//       id
+//     });
+//   }, []);
+
+//   const handleDeleteClick  = useCallback(id => {
+//     dispatch({
+//       type: 'REMOVE_USER',
+//       id
+//     });
+//   }, []);
+
+//   const count = useMemo(() => countActiveUsers(users), [users]);
+
 //   return (
 //     <>
-//       <ClassCounter/>
+//       <ArrayAdd
+//         username={username}
+//         email={email}
+//         onInputChange={handleInputChange }
+//         onCreateClick={handleCreateClick }
+//       />
+//       <UserList propUsers={users} toggleClick={handleToggleClick } deleteClick={handleDeleteClick } />
+//       <div>활성사용자 수 : {count}</div>
 //     </>
 //   );
 // }
 
 // export default App;
+
+
+
+
+
+
+
+// // 스마트홈 예제 - useCallback + useState
+// // SmartHome.js 에서 useCallback 사용안하고, 사용하고 차이 비교
+// // 브라우저 콘솔창열고 , 침실 클릭시 light가 on 을해본다.
+// // usecallback 사용안하면 침실만 on되는게 아니라 나머지 주방,욕실도 불필요하게 on 됨.
+
+// import React from "react";
+// import './App.css';
+// import SmartHome from "./SmartHome";
+
+// const App = () => {
+//   return (
+//     // <div style={{ position: "absolute", top: "50%", left: "50%" }}>
+//     <div className="App-header">
+//       <h3>My Smart Home Light </h3>
+//       <SmartHome />
+//     </div>
+//   );
+// };
+
+// export default App;
+
+
+
+
+
+
+
+
 
 
 
@@ -214,166 +374,6 @@ export default App;
 
 
 
-//  강의 - immer   - 설치명령어는  yarn add immer
-//  [UerList, CreateUser구현  - 2. useReducer 함수 + 커스텀훅스 useInputs
-
-// 추가 참고사항 js 문법
-
-// const animals = ['개', '고양이', '참새'];
-// const anotherAnimals = [...animals, '비둘기'];
-// console.log(animals);
-// console.log(anotherAnimals);
-
-
-// const obj= {
-//     a: 1,
-//     b: 2
-//   };
-// // console.log(obj.a)
-// // console.log(obj.b)
-// console.log(obj)
-
-// obj.b = 3;
-// console.log(obj)
-
-
-
-
-
-
-// import React, { useRef, useReducer, useMemo, useCallback } from 'react';
-// import UserList from './UserList';
-// import ArrayAdd from './ArrayAdd';
-// import useInputs from './useInputs';
-// import produce from 'immer'; // 1. immer 설치후 import하기
-
-
-// // immer - 1. 아래의 코드는 immer 의 produce를 브라우저 개발자도구 콘솔에서 사용하기 위해 등록
-// window.produce = produce;
-// // immer - 2.
-// // 개발자도구를 열어 콘솔탭에서
-// // 아래 4개를 각각 입력하면서 immer 의 produce에 대해 알아본다.
-// // produce
-// // const state = { changedNum:1 , fixedNum:2};
-// // const nextState = produce(state, draft => { draft.changedNum +=3})
-// // nextState
-
-
-// function countActiveUsers(users) {
-//   console.log('활성 사용자 수를 세는중...');
-//   return users.filter(user => user.active).length;
-// }
-
-
-// const initialState = {
-//   users: [ { id: 1, username: 'user1',email: 'user1@gmail.com', active: true },
-//            { id: 2, username: 'user2', email: 'user2@gmail.com', active: false },
-//            { id: 3, username: 'user3', email: 'user3@gmail.com' , active: false }
-//          ]
-// };
-
- 
-// function reducer(state, action) {
-//     switch (action.type) {
-
-//           case 'CREATE_USER':
-//             return produce(state, draft => {
-//               draft.users.push(action.user);
-//             });
-//             // return { inputs: initialState.inputs,
-//             //         users: state.users.concat(action.user)   
-//             // };
-//           case 'TOGGLE_USER':
-//             return produce(state, draft => {
-//               const user = draft.users.find(user => user.id === action.id);
-//               user.active = !user.active;
-//             });
-//             // return { ...state,
-//             //         users: state.users.map(user =>
-//             //               user.id === action.id ? { ...user, active: !user.active } : user
-//             //               )
-//             // };
-//           case 'REMOVE_USER':
-//             return produce(state, draft => {
-//               const index = draft.users.findIndex(user => user.id === action.id);
-//               draft.users.splice(index, 1);
-//             });
-//             // return {  ...state,
-//             //           users: state.users.filter(user => user.id !== action.id)
-//             // };
-//           default:
-//             return state;
-//     }
-// }
-
-// function App() {
-
-//   const [state, dispatch] = useReducer(reducer, initialState); 
-
-//   const [form, handleInputChange, reset] = useInputs({  
-//     username: '',
-//     email: ''
-//   });
-//   const {username, email} =form
-
-//   const nextId = useRef(4);
-
-//   const { users } = state;
-
-
-//   const handleCreateClick  = useCallback(() => {
-//     dispatch({
-//       type: 'CREATE_USER',
-//       user: {
-//         id: nextId.current,
-//         username,
-//         email
-//       }
-//     });
-//     reset();  
-//     nextId.current += 1;
-//   }, [username, email, reset]);
-
-//   const handleToggleClick  = useCallback(id => {
-//     dispatch({
-//       type: 'TOGGLE_USER',
-//       id
-//     });
-//   }, []);
-
-//   const handleDeleteClick  = useCallback(id => {
-//     dispatch({
-//       type: 'REMOVE_USER',
-//       id
-//     });
-//   }, []);
-
-//   const count = useMemo(() => countActiveUsers(users), [users]);
-
-//   return (
-//     <>
-//       <ArrayAdd
-//         username={username}
-//         email={email}
-//         onInputChange={handleInputChange }
-//         onCreateClick={handleCreateClick }
-//       />
-//       <UserList propUsers={users} toggleClick={handleToggleClick } deleteClick={handleDeleteClick } />
-//       <div>활성사용자 수 : {count}</div>
-//     </>
-//   );
-// }
-
-// export default App;
-
-
-
-
-
-
-
-
-
 
 
 
@@ -405,6 +405,7 @@ export default App;
 // // 3. useReducer() 의 첫번째 파라미터 reducer:  
 // function reducer(state, action) {
 //   switch (action.type) {
+//      // 커스텀훅스로 변경된 case 인 input 관련코드
 //       // case 'CHANGE_INPUT':
 //       //   return { ...state,
 //       //             inputs: { ...state.inputs, 
@@ -421,12 +422,12 @@ export default App;
 //                       user.id === action.id ? { ...user, active: !user.active } : user
 //                       )
 //         };
-//     case 'REMOVE_USER':
-//       return {  ...state,
-//                 users: state.users.filter(user => user.id !== action.id)
-//       };
-//     default:
-//       return state;
+//       case 'REMOVE_USER':
+//         return {  ...state,
+//                   users: state.users.filter(user => user.id !== action.id)
+//         };
+//       default:
+//         return state;
 //   }
 // }
 
