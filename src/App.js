@@ -1,21 +1,21 @@
 
 
 
-// 230325 강의  [ 클래스형 컴포넌트 ] - index.js, ClassCountner.js 
-import React from "react";
-import ClassCounter from "./ClassCounter"
-import './App.css';
+// // 230325 강의  [ 클래스형 컴포넌트 ] - index.js, ClassCountner.js 
+// import React from "react";
+// import ClassCounter from "./ClassCounter"
+// import './App.css';
 
-function App() {
+// function App() {
   
-  return (
-    <>
-      <ClassCounter/>
-    </>
-  );
-}
+//   return (
+//     <>
+//       <ClassCounter/>
+//     </>
+//   );
+// }
 
-export default App;
+// export default App;
 
 
 
@@ -815,10 +815,10 @@ export default App;
 
 
 
-// // [ MemberList+CreateMember 방법1 ]- useState()함수 활용+ (최적화 함수2개) useCallback [deps] : 함수재사용 + useMemo : 상관없는 컴포넌트 리랜더링방지
-// // 하위 MemberList + CreateMember 와 상위 app.js\
-// // prop ,function, 이벤트 -  네이밍 방법 -  참고링크: 
-// // https://ellie-dev.tistory.com/13
+// [ MemberList+CreateMember 방법1 ]- useState()함수 활용+ (최적화 함수2개) useCallback [deps] : 함수재사용 + useMemo : 상관없는 컴포넌트 리랜더링방지
+// 하위 MemberList + CreateMember 와 상위 app.js\
+// prop ,function, 이벤트 -  네이밍 방법 -  참고링크: 
+// https://ellie-dev.tistory.com/13
 
 // import React, { useRef, useState, useMemo, useCallback } from 'react';
 // import MemberList from './MemberList';
@@ -893,8 +893,9 @@ export default App;
 //     []  // useMemo수정2
 //    );
 
- 
-//   const count = useMemo(() => countActiveUsers(users), [users]);
+
+//     //  const count = countActiveUsers(users); // 방법1.  active 관련하여 해당 함수가 호출되지 않고, iput창에 입력할때도 호출, 리렌더링되는 비효율 
+//   const count = useMemo(() => countActiveUsers(users), [users]); // 방법2. depth 배열 내용이 변경시, 함수호출, 변경되지 않은상태에서는 함수호출하지 않고 이전값을 재사용
 
 //   return (
 //     <> 
@@ -917,20 +918,20 @@ export default App;
 
 
 // // [ MathQuiz ] - useRef, useState 연습
-// import React from "react";
-// import MathQuiz from "./MathQuiz"
-// import './App.css';
+import React from "react";
+import MathQuiz from "./MathQuiz"
+import './App.css';
 
-// function App() {
+function App() {
   
-//   return (
-//     <>
-//       <MathQuiz/>
-//     </>
-//   );
-// }
+  return (
+    <>
+      <MathQuiz/>
+    </>
+  );
+}
 
-// export default App;
+export default App;
 
 
 
@@ -991,7 +992,7 @@ export default App;
 
 
 
-// useEffect() 예제1
+// UseEffect 1번째 예제  - 실행순서
 
 // import './App.css';
 // import React from 'react';
@@ -1007,8 +1008,24 @@ export default App;
 // export default App;
 
 
+// // UseEffect 1번째 예제  - 실행순서
+// import { useState } from "react";
+// import UseEffect from './UseEffect'
 
+// function App() {
+//   const [showing, setShowing] = useState(false)
+//   const onClick = () => setShowing(prev => !prev)
 
+//   return (
+//     <div>
+//       {showing ? <UseEffect /> : null} 
+//       <button onClick={onClick}>{showing ? 'hide' : 'show'}	</button>
+//     {/* <UseEffect></UseEffect> */}
+//     </div>
+//   );
+// }
+
+// export default App;
 
 
 
@@ -1082,7 +1099,7 @@ export default App;
 
 
 
-// - 02-2 Wrapper.js
+// - 02-2 Wrapper.js  /  children 예제
 // import './App.css';
 // import React from 'react';
 // import Hello from './Hello'
